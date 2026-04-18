@@ -3,6 +3,16 @@ import pandas as pd
 from sqlalchemy import create_engine
 import os
 import re
+import logging
+import sys
+
+# Configure standard logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    stream=sys.stdout
+)
+logger = logging.getLogger(__name__)
 
 DB_URL = os.getenv("DATABASE_URL", "postgresql://user:password@postgres:5432/snies")
 
@@ -23,7 +33,7 @@ def load_file(file_path):
     engine = get_engine()
     file_name = os.path.basename(file_path)
     
-    print(f"Loading {file_name} into Bronze schema...")
+    logger.info(f"Opening file and loading {file_name} into Bronze schema...")
     
     # Determine table name based on file name without extension
     table_name, ext = os.path.splitext(file_name)
@@ -43,19 +53,14 @@ def load_file(file_path):
         df['loaded_at'] = pd.Timestamp.now()
         
         # Log DataFrame info before committing to Postgres
-        print(f"\n--- Data Profile for {table_name} ---")
-        print("Columns and Data Types:")
-        print(df.dtypes)
-        print("\nFirst 5 rows:")
-        print(df.head(5))
-        print("--------------------------------------\n")
+        logger.debug(f"Data Profile for {table_name}:\nColumns and Data Types:\n{df.dtypes}\n\nFirst 5 rows:\n{df.head(5)}\n")
         
         # Write data to the 'bronze' schema
         df.to_sql(name=table_name, con=engine, schema='bronze', if_exists='replace', index=False)
-        print(f"Success: Loaded {len(df)} rows into bronze.{table_name}")
+        logger.info(f"Task successfully completed: Loaded {len(df)} rows into bronze.{table_name}")
         
     except Exception as e:
-        print(f"Error loading {file_name}: {e}")
+        logger.error(f"Error loading {file_name}: {e}")
         raise
 
 if __name__ == '__main__':
