@@ -3,7 +3,7 @@
 ```mermaid
 graph TD
     %% Orchestration Layer
-    subgraph Orchestration ["ORCHESTRATION & GOVERNANCE (APACHE AIRFLOW)"]
+    subgraph Orchestration ["ORCHESTRATION & GOVERNANCE (PREFECT)"]
         direction TB
         
         subgraph External_Sources ["PHASE 0: EXTERNAL DATA SOURCES"]

@@ -1,0 +1,27 @@
+Act as a Senior Data Engineer. Based on the @task definitions in my 
+
+etl_flow.py
+, I need you to create a suite of isolated test scripts to validate each task independently. This will help me debug the logic and understand the data flow in detail.
+
+Requirements for the Test Scripts:
+
+Isolated Execution: Each script must be a standalone Python file inside a new flows/tests directory.
+
+Prefect Context: Wrap each task call within a temporary @flow so we can see the native Prefect logging and state management.
+
+Specific Test Cases:
+
+test_fetch.py : Execute fetch_external_data(). Verify if the files actually appear in the @raw_snies_files folder.
+
+test_audit.py: Execute file_audit(). Print the list of 'new' files detected and explain why they were flagged (new vs. existing hash).
+
+test_ingestion.py: Execute run_ingestion() using only the 2022 Excel file as a sample. Crucial: Add detailed print statements or logs to show the DataFrame columns, data types, and the first 5 rows before they are committed to Postgres.
+
+Mocking/Database: Use the existing DATABASE_URL from the environment. Ensure the scripts don't break if the table doesn't exist yet (maybe add a small check).
+
+Language: All code, comments, and console outputs must be in Professional English.
+
+Goal:
+I want to run python tests/test_ingestion.py and see exactly how pandas is interpreting the SNIES columns and how Prefect handles the task success/failure.
+
+Please generate these scripts and provide a brief explanation of how to execute them inside the loader or orchestrator container.
