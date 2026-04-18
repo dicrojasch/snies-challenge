@@ -42,6 +42,14 @@ def load_file(file_path):
         # Add loaded_at timestamp for traceability
         df['loaded_at'] = pd.Timestamp.now()
         
+        # Log DataFrame info before committing to Postgres
+        print(f"\n--- Data Profile for {table_name} ---")
+        print("Columns and Data Types:")
+        print(df.dtypes)
+        print("\nFirst 5 rows:")
+        print(df.head(5))
+        print("--------------------------------------\n")
+        
         # Write data to the 'bronze' schema
         df.to_sql(name=table_name, con=engine, schema='bronze', if_exists='replace', index=False)
         print(f"Success: Loaded {len(df)} rows into bronze.{table_name}")
