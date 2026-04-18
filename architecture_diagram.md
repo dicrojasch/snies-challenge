@@ -1,0 +1,62 @@
+# SNIES Project Architecture Diagram
+
+```mermaid
+graph TD
+    %% Orchestration Layer
+    subgraph Orchestration ["ORCHESTRATION & GOVERNANCE (APACHE AIRFLOW)"]
+        direction TB
+        
+        subgraph External_Sources ["PHASE 0: EXTERNAL DATA SOURCES"]
+            Web2023["SNIES Web"]
+        end
+
+        subgraph Phase_A ["PHASE A: INGESTION"]
+            Loader["Loader (ingest_data.py)"]
+        end
+
+        subgraph Phase_B ["PHASE B: DATA MODELING (DBT)"]
+            
+            subgraph Bronze_Layer ["BRONZE: RAW DATA"]
+                table_docentes["raw_docentes"]
+                table_estudiantes["raw_estudiantes"]
+            end
+
+            dbt_transform_silver{{"dbt run / build"}}
+
+            subgraph Silver_Layer ["SILVER: NORMALIZED DATA"]
+                stg_docentes["stg_docentes"]
+                stg_estudiantes["stg_estudiantes"]
+                sue_seed["sue_institutions (Seed)"]
+            end
+
+            dbt_transform_gold{{"dbt run / build"}}
+
+            subgraph Gold_Layer ["GOLD: ANALYTICAL DATA"]
+                final_metrics["student_teacher_ratio"]
+            end
+        end
+
+        subgraph Consumption ["PHASE C: ACCESSIBILITY"]
+            BI["Tableau / BI Tools"]
+        end
+    end
+
+    %% Data Flow & Orchestration Links
+    Web2023 --> Loader
+    Loader --> table_docentes
+    Loader --> table_estudiantes
+
+    %% DBT Transitions
+    table_docentes & table_estudiantes --> dbt_transform_silver
+    dbt_transform_silver --> stg_docentes & stg_estudiantes
+    
+    stg_docentes & stg_estudiantes & sue_seed --> dbt_transform_gold
+    dbt_transform_gold --> final_metrics
+
+    final_metrics --> BI
+
+    %% Styling
+    style Orchestration fill:#f9f9f9,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
+    style dbt_transform_silver fill:#ff6b6b,stroke:#fff,color:#fff
+    style dbt_transform_gold fill:#ff6b6b,stroke:#fff,color:#fff
+```
