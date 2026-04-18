@@ -43,7 +43,15 @@ def load_file(file_path):
     
     try:
         if ext.lower() in ['.xlsx', '.xlsb']:
-            df = pd.read_excel(file_path)
+            # Guard: check for HTML content (common in 404/redirects mislabeled as Excel)
+            with open(file_path, 'rb') as f:
+                header = f.read(500)
+                if b"<!DOCTYPE" in header.upper() or b"<HTML" in header.upper():
+                    raise ValueError(f"File {file_name} appears to be an HTML error page, not a valid Excel file. Please check if the source URL is correct.")
+            
+            # Explicitly specify engine as requested by Pandas error message
+            engine_name = 'openpyxl' if ext.lower() == '.xlsx' else 'pyxlsb'
+            df = pd.read_excel(file_path, engine=engine_name)
         else:
             df = pd.read_csv(file_path)
         

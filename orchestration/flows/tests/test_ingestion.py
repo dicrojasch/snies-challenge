@@ -9,7 +9,7 @@ from etl_flow import run_ingestion, RAW_FILES_DIR
 @flow
 def debug_ingestion_flow():
     # Only testing with a mock representation of the 2022 dataset based on etl_flow logic
-    target_filename = "2022_MATRICULADOS.xlsx" # Substitute with actual filename based on raw_snies_files if needed
+    target_filename = "estudiantes_inscritos_2022.xlsx" # Substitute with actual filename based on raw_snies_files if needed
     target_filepath = os.path.join(RAW_FILES_DIR, target_filename)
     
     # We pass a list of dicts because run_ingestion expects file_info["file_name"], etc.
