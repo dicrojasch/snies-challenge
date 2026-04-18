@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: snies
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  loader:
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://user:password@postgres:5432/snies
+    volumes:
+      - ./scripts:/scripts
+      - ./files:/files
+      - ./data:/data
+    # command: python /scripts/ingest_data.py # This is handled as CMD in Dockerfile
+
+  orchestrator:
+    build:
+      context: ./orchestration
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://user:password@postgres:5432/snies
+      PREFECT_API_URL: http://0.0.0.0:4200/api
+    command: prefect server start --host 0.0.0.0
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./dbt_project:/dbt_project
+      - ./files:/files
+      - ./orchestration:/orchestration
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

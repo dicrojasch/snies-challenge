@@ -1,0 +1,14 @@
+__pycache__/
+.venv/
+.env
+
+# Data and Files
+/data/*
+/files/*.xlsx
+/files/*.csv
+!/files/.gitkeep
+
+# dbt artifacts
+dbt_project/target/
+dbt_project/logs/
+dbt_project/dbt_packages/
