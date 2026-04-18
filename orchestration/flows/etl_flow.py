@@ -2,6 +2,7 @@ from prefect import task, flow
 import subprocess
 import os
 import hashlib
+import json
 from sqlalchemy import create_engine, text
 from datetime import datetime
 
@@ -10,6 +11,18 @@ RAW_FILES_DIR = "/raw_snies_files"
 
 def get_engine():
     return create_engine(DB_URL)
+
+def load_ingestion_config():
+    """Load allowed prefixes and years from config file."""
+    config_path = os.path.join(os.path.dirname(__file__), "ingestion_config.json")
+    if not os.path.exists(config_path):
+        # Fallback defaults if config is missing
+        return {
+            "allowed_prefixes": ["estudiantes_inscritos", "docentes"],
+            "allowed_years": [2022, 2023, 2024]
+        }
+    with open(config_path, "r") as f:
+        return json.load(f)
 
 @task(name="Fetch External Data", retries=1)
 def fetch_external_data():
@@ -25,8 +38,11 @@ def fetch_external_data():
 
 @task(name="File Audit & Control")
 def file_audit():
-    """Scan raw_snies_files, compare hashes with DB, identify new files."""
+    """Scan raw_snies_files, compare hashes with DB, identify new files based on criteria."""
     engine = get_engine()
+    config = load_ingestion_config()
+    prefixes = config.get("allowed_prefixes", [])
+    years = [str(y) for y in config.get("allowed_years", [])]
     
     if not os.path.exists(RAW_FILES_DIR):
         print(f"Directory {RAW_FILES_DIR} not found.")
@@ -47,6 +63,16 @@ def file_audit():
     
     for filename in os.listdir(RAW_FILES_DIR):
         filepath = os.path.join(RAW_FILES_DIR, filename)
+        
+        # 1. Filter by prefix and year
+        matches_prefix = any(filename.lower().startswith(p.lower()) for p in prefixes)
+        matches_year = any(y in filename for y in years)
+        
+        if not (matches_prefix and matches_year):
+            # Optionally log why it was skipped if debugging is needed
+            # print(f"Skipping {filename} (Criteria no match)")
+            continue
+
         if os.path.isfile(filepath):
             # Calculate hash
             hasher = hashlib.sha256()
@@ -58,7 +84,7 @@ def file_audit():
             if filename not in existing_records or existing_records[filename] != file_hash:
                 new_files.append({"file_name": filename, "file_hash": file_hash, "path": filepath})
     
-    print(f"Found {len(new_files)} new/modified files.")
+    print(f"Audit completed. Found {len(new_files)} new/modified files meeting criteria.")
     return new_files
 
 @task(name="Ingest SNIES Data")
