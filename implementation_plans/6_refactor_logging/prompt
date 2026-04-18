@@ -1,0 +1,27 @@
+Act as a Senior Python Developer. I need to refactor the entire etl_flow.py and any associated helper scripts to replace all print() statements with a professional logging implementation.
+
+Refactoring Requirements:
+
+Prefect Integration: Inside the @task and @flow functions, use the native Prefect logger (from prefect import get_run_logger). This ensures logs are visible in the Prefect UI.
+
+Standard Library Fallback: For logic outside Prefect-decorated functions, use the standard logging module.
+
+Severity Levels Strategy:
+
+DEBUG: For high-detail information (e.g., 'Opening file X', 'Calculating hash for Y').
+
+INFO: For major milestones (e.g., 'Starting ingestion', 'Task successfully completed').
+
+WARNING: For non-fatal anomalies (e.g., 'File already processed, skipping', 'Folder already exists').
+
+ERROR: For exceptions and failures (e.g., 'Database connection failed', 'File format not recognized').
+
+CRITICAL: For infrastructure-breaking issues that require immediate attention.
+
+Message Structure: Ensure log messages are descriptive and include relevant context (e.g., filename, table name, or year).
+
+Language: Maintain all log messages and comments in Professional English.
+
+Execution:
+Please update the code and perform a Git commit with the following message:
+git commit -m "Refactor: Replaced print statements with professional logging (Prefect & Standard). Co-authored-by: AI Assistant""
