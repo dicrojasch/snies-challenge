@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: docentes_2022
+      - name: estudiantes_inscritos_2022
+      - name: docentes_2023
+      - name: estudiantes_inscritos_2023
+      - name: docentes_2024
+      - name: estudiantes_inscritos_2024

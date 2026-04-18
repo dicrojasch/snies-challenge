@@ -1,0 +1,12 @@
+snies:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      threads: 4
+      host: postgres
+      port: 5432
+      user: user
+      password: password
+      dbname: snies
+      schema: public # Default schema, dbt project config overrides this for custom schemas
