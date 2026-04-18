@@ -1,0 +1,47 @@
+Act as a Senior Data Engineer. We are initializing the SNIES Data Challenge project. The solution must be fully dockerized, modular, and follow the Medallion Architecture.
+
+Important Project Context:
+
+Challenge Rules: Detailed requirements are in ./challenge.md.
+
+Existing Data: Historical files for 2022 are currently in ./files.
+
+Infrastructure (Lean Approach):
+
+Use docker-compose with three services: PostgreSQL, Data Loader, and Orchestrator.
+
+dbt Integration: Install dbt-core and dbt-postgres directly inside the Orchestrator container. No separate dbt container is needed.
+
+Data Flow:
+
+Bronze Schema: Raw data from ./files (2022) and new downloads (2023-2024).
+
+Silver Schema: Normalized relational model managed by dbt.
+
+Gold Schema: Dimensional model for analytics managed by dbt.
+
+Initialization Tasks:
+Please generate the following scaffolding. Ensure all code, variable names, and comments are in professional English:
+
+Project Organization: Create the directory structure: /scripts, /dbt_project, /orchestration, /files, and /data. Move any existing source files to their respective folders.
+
+.gitignore: Generate a comprehensive .gitignore file to exclude:
+
+Python artifacts (__pycache__, .venv).
+
+Local data files (/data/*, /files/*.xlsx, /files/*.csv).
+
+Environment variables (.env).
+
+dbt logs and compiled files.
+
+docker-compose.yaml: Define PostgreSQL (initializing bronze, silver, and gold schemas), the Loader service, and the Orchestrator service. Ensure volumes are mapped for /files, /dbt_project, and /scripts.
+
+Dockerfile (Orchestrator): Based on Python, including prefect (or Airflow), dbt-core, and dbt-postgres.
+
+Dockerfile (Loader): Based on Python, including pandas, sqlalchemy, and openpyxl.
+
+Ingestion Script (/scripts/ingest_data.py): A script to read 2022 data from /files and download 2023-2024 data into the Bronze schema.
+
+Once the files are created and organized, please perform the first Git commit:
+'Project setup: Dockerized lean architecture, file organization, and gitignore. Co-authored-by: AI Assistant'.

@@ -1,0 +1,1 @@
+Generate a Mermaid diagram for a data pipeline with Bronze, Silver, and Gold layers for the SNIES project

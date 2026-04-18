@@ -1,0 +1,17 @@
+Created response.txt
+Edited architecture_diagram.md
+Edited README.md
+Ran command: `git add README.md architecture_diagram.md && git commit -m "docs: Add architecture diagram and project README." -m "Co-authored-by: Antigravity <ai-agent@google.com>"`
+
+I have generated the **Mermaid architecture diagram** for the SNIES project, detailing the flow from external sources through the Bronze, Silver, and Gold layers of the Medallion Architecture.
+
+The diagram has been integrated into:
+1.  **[README.md](file:///home/diego/repos/snies-challenge/README.md)**: Providing a central technical overview for the repository.
+2.  **[architecture\_diagram.md](file:///home/diego/repos/snies-challenge/architecture_diagram.md)**: For dedicated access to the pipeline visualization.
+
+### Architecture Summary:
+-   **Bronze Layer**: Raw ingestion of local (2022) and web-scraped (2023-2024) datasets.
+-   **Silver Layer**: Sanitized and normalized views for students and teachers, including the SUE institution mapping.
+-   **Gold Layer**: Final analytical tables calculating the **Student-to-Teacher Ratio** and identifying state institutions, optimized for BI consumption.
+
+All files are committed to the repository. Please let me know if you would like to adjust the diagram or move on to the next implementation phase!

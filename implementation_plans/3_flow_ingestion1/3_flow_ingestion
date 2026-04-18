@@ -1,0 +1,47 @@
+Act as a Lead Data Engineer. We need to evolve our Prefect orchestration flow to include a robust file-sensing and audit mechanism before processing.
+
+New Orchestration Logic:
+
+Task 1: Fetch External Data:
+
+Execute the bash script located at @contextScopeItemMention
+
+Downloaded files must be stored in the @contextScopeItemMention
+
+Ensure the task handles shell execution errors gracefully.
+
+Task 2: File Audit & Control (Postgres Metadata):
+
+Create a control table in the PostgreSQL bronze schema named ingestion_audit (columns: file_name, file_hash, processed_at, status).
+
+Develop a task to scan @contextScopeItemMention and compare them against bronze.ingestion_audit.
+
+Logic: Identify 'New' files that haven't been processed or whose hash has changed.
+
+Task 3: Conditional Flow Control:
+
+If NEW files are detected:
+
+Proceed to run_ingestion (Python task to load files into Bronze).
+
+Update the ingestion_audit table upon successful load.
+
+Trigger the run_dbt task to refresh the Silver and Gold layers.
+
+If NO NEW files are detected:
+
+Log a message: 'No new data found. Skipping ingestion and dbt models.'
+
+Gracefully terminate the flow execution for the current run.
+
+Technical Requirements:
+
+Prefect Integration: Use Prefect's state management or a simple conditional if/else within the @flow to handle the branching.
+
+Traceability: Ensure the run_ingestion task continues to include the loaded_at timestamp.
+
+Language: Maintain all code, docstrings, and log messages in Professional English.
+
+Execution:
+Please update the Prefect flow script and the database initialization SQL. Once done, commit the changes with the message:
+git commit -m "Feature: Added file audit control and conditional orchestration logic. Co-authored-by: AI Assistant"

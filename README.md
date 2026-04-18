@@ -9,27 +9,27 @@ The project follows a **Medallion Architecture** (Bronze, Silver, Gold Layers) a
 ```mermaid
 graph TD
     %% Orchestration Layer
-    subgraph Orchestration ["<h3>ORCHESTRATION & GOVERNANCE (APACHE AIRFLOW)</h3>"]
+    subgraph Orchestration ["ORCHESTRATION & GOVERNANCE (PREFECT)"]
         direction TB
         
-        subgraph External_Sources ["<h4>PHASE 0: EXTERNAL DATA SOURCES</h4>"]
+        subgraph External_Sources ["PHASE 0: EXTERNAL DATA SOURCES"]
             Web2023["SNIES Web"]
         end
 
-        subgraph Phase_A ["<h4>PHASE A: INGESTION</h4>"]
+        subgraph Phase_A ["PHASE A: INGESTION"]
             Loader["Loader (ingest_data.py)"]
         end
 
-        subgraph Phase_B ["<h4>PHASE B: DATA MODELING (DBT)</h4>"]
+        subgraph Phase_B ["PHASE B: DATA MODELING (DBT)"]
             
-            subgraph Bronze_Layer ["<b>BRONZE: RAW DATA</b>"]
+            subgraph Bronze_Layer ["BRONZE: RAW DATA"]
                 table_docentes["raw_docentes"]
                 table_estudiantes["raw_estudiantes"]
             end
 
             dbt_transform_silver{{"dbt run / build"}}
 
-            subgraph Silver_Layer ["<b>SILVER: NORMALIZED DATA</b>"]
+            subgraph Silver_Layer ["SILVER: NORMALIZED DATA"]
                 stg_docentes["stg_docentes"]
                 stg_estudiantes["stg_estudiantes"]
                 sue_seed["sue_institutions (Seed)"]
@@ -37,12 +37,12 @@ graph TD
 
             dbt_transform_gold{{"dbt run / build"}}
 
-            subgraph Gold_Layer ["<b>GOLD: ANALYTICAL DATA</b>"]
+            subgraph Gold_Layer ["GOLD: ANALYTICAL DATA"]
                 final_metrics["student_teacher_ratio"]
             end
         end
 
-        subgraph Consumption ["<h4>PHASE C: ACCESSIBILITY</h4>"]
+        subgraph Consumption ["PHASE C: ACCESSIBILITY"]
             BI["Tableau / BI Tools"]
         end
     end

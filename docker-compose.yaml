@@ -40,6 +40,8 @@ services:
     volumes:
       - ./dbt_project:/dbt_project
       - ./files:/files
+      - ./raw_snies_files:/raw_snies_files
+      - ./scripts:/scripts
       - ./orchestration:/orchestration
     depends_on:
       - postgres
