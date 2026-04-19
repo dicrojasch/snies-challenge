@@ -5,8 +5,8 @@ sources:
     schema: bronze
     description: "Raw SNIES microdata loaded from Excel files."
     tables:
-      - name: estudiantes_inscritos_2022
-        description: "Raw enrollment records (estudiantes inscritos) across all years."
+      - name: estudiantes_matriculados_2022
+        description: "Raw enrollment records (estudiantes matriculados) for the year 2022."
         columns:
           - name: código_de_la_institución
           - name: ies_padre
@@ -14,6 +14,7 @@ sources:
           - name: principal_o_seccional
           - name: id_sector_ies
           - name: sector_ies
+          - name: ies_acreditada
           - name: id_caracter
           - name: caracter_ies
           - name: código_del_departamento_ies
@@ -22,13 +23,14 @@ sources:
           - name: municipio_de_domicilio_de_la_ies
           - name: código_snies_del_programa
           - name: programa_académico
+          - name: programa_acreditado
           - name: id_nivel_académico
           - name: nivel_académico
           - name: id_nivel_de_formación
           - name: nivel_de_formación
           - name: id_metodología
           - name: metodología
-          - name: id_área
+          - name: id_área_de_conocimiento
           - name: área_de_conocimiento
           - name: id_núcleo
           - name: núcleo_básico_del_conocimiento_nbc
@@ -46,11 +48,103 @@ sources:
           - name: sexo
           - name: año
           - name: semestre
-          - name: inscritos
+          - name: matriculados
+          - name: loaded_at
+
+      - name: estudiantes_matriculados_2023
+        description: "Raw enrollment records (estudiantes matriculados) for the year 2023."
+        columns:
+          - name: código_de_la_institución
+          - name: ies_padre
+          - name: institución_de_educación_superior_ies
+          - name: tipo_ies
+          - name: id_sector_ies
+          - name: sector_ies
+          - name: id_carácter_ies
+          - name: carácter_ies
+          - name: código_del_departamento_ies
+          - name: departamento_de_domicilio_de_la_ies
+          - name: código_del_municipio_ies
+          - name: municipio_de_domicilio_de_la_ies
+          - name: ies_acreditada
+          - name: código_snies_del_programa
+          - name: programa_académico
+          - name: programa_acreditado
+          - name: id_nivel_académico
+          - name: nivel_académico
+          - name: id_nivel_de_formación
+          - name: nivel_de_formación
+          - name: id_modalidad
+          - name: modalidad
+          - name: id_área
+          - name: área_de_conocimiento
+          - name: id_núcleo
+          - name: núcleo_básico_del_conocimiento_nbc
+          - name: id_cine_campo_amplio
+          - name: desc_cine_campo_amplio
+          - name: id_cine_campo_especifico
+          - name: desc_cine_campo_especifico
+          - name: id_cine_campo_detallado
+          - name: desc_cine_campo_detallado
+          - name: código_del_departamento_programa
+          - name: departamento_de_oferta_del_programa
+          - name: código_del_municipio_programa
+          - name: municipio_de_oferta_del_programa
+          - name: id_sexo
+          - name: sexo
+          - name: año
+          - name: semestre
+          - name: matriculados
+          - name: loaded_at
+
+      - name: estudiantes_matriculados_2024
+        description: "Raw enrollment records (estudiantes matriculados) for the year 2024."
+        columns:
+          - name: código_de_la_institución
+          - name: ies_padre
+          - name: institución_de_educación_superior_ies
+          - name: tipo_ies
+          - name: id_sector_ies
+          - name: sector_ies
+          - name: id_carácter_ies
+          - name: carácter_ies
+          - name: código_del_departamento_ies
+          - name: departamento_de_domicilio_de_la_ies
+          - name: código_del_municipio_ies
+          - name: municipio_de_domicilio_de_la_ies
+          - name: ies_acreditada
+          - name: código_snies_del_programa
+          - name: programa_académico
+          - name: programa_acreditado
+          - name: id_nivel_académico
+          - name: nivel_académico
+          - name: id_nivel_de_formación
+          - name: nivel_de_formación
+          - name: id_modalidad
+          - name: modalidad
+          - name: id_área
+          - name: área_de_conocimiento
+          - name: id_núcleo
+          - name: núcleo_básico_del_conocimiento_nbc
+          - name: id_cine_campo_amplio
+          - name: desc_cine_campo_amplio
+          - name: id_cine_campo_especifico
+          - name: desc_cine_campo_especifico
+          - name: id_cine_campo_detallado
+          - name: desc_cine_campo_detallado
+          - name: código_del_departamento_programa
+          - name: departamento_de_oferta_del_programa
+          - name: código_del_municipio_programa
+          - name: municipio_de_oferta_del_programa
+          - name: id_sexo
+          - name: sexo
+          - name: año
+          - name: semestre
+          - name: matriculados
           - name: loaded_at
 
       - name: docentes_2022
-        description: "Raw teacher records (docentes) across all years."
+        description: "Raw teacher records (docentes) for the year 2022."
         columns:
           - name: código_de_la_institución
           - name: ies_padre
@@ -76,4 +170,62 @@ sources:
           - name: año
           - name: semestre
           - name: no_de_docentes
+          - name: loaded_at
+
+      - name: docentes_2023
+        description: "Raw teacher records (docentes) for the year 2023."
+        columns:
+          - name: código_de_la_institución
+          - name: ies_padre
+          - name: institución_de_educación_superior_ies
+          - name: tipo_ies
+          - name: id_sector_ies
+          - name: sector_ies
+          - name: id_carácter_ies
+          - name: carácter_ies
+          - name: código_del_departamento_ies
+          - name: departamento_de_domicilio_de_la_ies
+          - name: código_del_municipio_ies
+          - name: municipio_de_domicilio_de_la_ies
+          - name: ies_acreditada
+          - name: id_sexo
+          - name: sexo_del_docente
+          - name: id_máximo_nivel_de_formación_del_docente
+          - name: máximo_nivel_de_formación_del_docente
+          - name: id_tiempo_de_dedicación
+          - name: tiempo_de_dedicación_del_docente
+          - name: id_tipo_de_contrato
+          - name: tipo_de_contrato
+          - name: año
+          - name: semestre
+          - name: docentes
+          - name: loaded_at
+
+      - name: docentes_2024
+        description: "Raw teacher records (docentes) for the year 2024."
+        columns:
+          - name: código_de_la_institución
+          - name: ies_padre
+          - name: institución_de_educación_superior_ies
+          - name: tipo_ies
+          - name: id_sector_ies
+          - name: sector_ies
+          - name: id_carácter_ies
+          - name: carácter_ies
+          - name: código_del_departamento_ies
+          - name: departamento_de_domicilio_de_la_ies
+          - name: código_del_municipio_ies
+          - name: municipio_de_domicilio_de_la_ies
+          - name: ies_acreditada
+          - name: id_sexo
+          - name: sexo_del_docente
+          - name: id_máximo_nivel_de_formación_del_docente
+          - name: máximo_nivel_de_formación_del_docente
+          - name: id_tiempo_de_dedicación
+          - name: tiempo_de_dedicación_del_docente
+          - name: id_tipo_de_contrato
+          - name: tipo_de_contrato
+          - name: año
+          - name: semestre
+          - name: docentes
           - name: loaded_at

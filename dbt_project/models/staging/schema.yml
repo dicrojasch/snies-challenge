@@ -50,8 +50,8 @@ models:
       - name: formation_level_id
         description: "Formation level identifier."
         tests: [not_null]
-      - name: dedication_type_id
-        description: "Dedication type identifier."
+      - name: dedication_time_id
+        description: "Dedication time identifier."
         tests: [not_null]
       - name: contract_type_id
         description: "Contract type identifier."

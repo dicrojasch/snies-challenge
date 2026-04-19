@@ -141,16 +141,16 @@ models:
           - not_null
 
   # ── Dimension: Dedication Types ─────────────────────────────────────────────
-  - name: dim_dedication_types
+  - name: dim_dedication_times
     description: "Teacher time-dedication type (Tiempo Completo, Medio Tiempo, etc.)."
     columns:
-      - name: dedication_type_id
+      - name: dedication_time_id
         description: "SNIES dedication type identifier (PK)."
         tests:
           - unique
           - not_null
-      - name: dedication_type_name
-        description: "Dedication type name."
+      - name: dedication_time_name
+        description: "Dedication time name."
         tests:
           - not_null
 
@@ -244,8 +244,6 @@ models:
         description: "Official institution name."
         tests:
           - not_null
-      - name: branch_type
-        description: "Principal or branch campus."
       - name: is_sue_member
         description: >
           TRUE if the institution is part of the SUE
@@ -336,7 +334,7 @@ models:
   - name: teacher_records
     description: >
       Central teacher transaction table (Inmon intersection entity).
-      Grain: institution × gender × formation_level × dedication_type
+      Grain: institution × gender × formation_level × dedication_time
              × contract_type × cine_level_name × year × semester.
       Holds only FKs, the text-only cine_level_name attribute, and teacher_count.
     columns:
@@ -369,14 +367,14 @@ models:
               arguments:
                 to: ref('dim_formation_levels')
                 field: formation_level_id
-      - name: dedication_type_id
-        description: "FK to dim_dedication_types."
+      - name: dedication_time_id
+        description: "FK to dim_dedication_times."
         tests:
           - not_null
           - relationships:
               arguments:
-                to: ref('dim_dedication_types')
-                field: dedication_type_id
+                to: ref('dim_dedication_times')
+                field: dedication_time_id
       - name: contract_type_id
         description: "FK to dim_contract_types."
         tests:

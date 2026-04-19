@@ -6,6 +6,9 @@ import re
 import logging
 import sys
 from secrets_manager import get_database_url
+from openpyxl import load_workbook
+from pyxlsb import open_workbook as open_xlsb
+
 # Configure standard logging
 logging.basicConfig(
     level=logging.DEBUG,
@@ -25,6 +28,7 @@ def get_engine():
 def read_excel_with_dynamic_header(
     file_path,
     engine="openpyxl",
+    sheet_name=None,
     keywords=[
         "Código de la Institución",
         "IES PADRE",
@@ -38,7 +42,12 @@ def read_excel_with_dynamic_header(
     Skips metadata and empty rows.
     """
     # Read first 20 rows without header to find the actual header row
-    df_preview = pd.read_excel(file_path, engine=engine, header=None, nrows=20)
+    if sheet_name:
+        df_preview = pd.read_excel(
+            file_path, engine=engine, header=None, nrows=20, sheet_name=sheet_name
+        )
+    else:
+        df_preview = pd.read_excel(file_path, engine=engine, header=None, nrows=20)
 
     header_idx = None
     upper_keywords = [kw.upper() for kw in keywords]
@@ -54,7 +63,18 @@ def read_excel_with_dynamic_header(
             f"Dynamic header detected at row {header_idx} for {os.path.basename(file_path)}"
         )
         # Re-read the file starting from the detected header row (which becomes index 0)
-        return pd.read_excel(file_path, engine=engine, skiprows=header_idx)
+        df = None
+        if sheet_name:
+            df = pd.read_excel(
+                file_path,
+                engine=engine,
+                nrows=20,
+                sheet_name=sheet_name,
+                skiprows=header_idx,
+            )
+        else:
+            df = pd.read_excel(file_path, engine=engine, skiprows=header_idx)
+        return df
 
     logger.warning(
         f"Could not dynamically identify header for {os.path.basename(file_path)}. Falling back to default."
@@ -85,17 +105,31 @@ def load_file(file_path):
 
     try:
         if ext.lower() in [".xlsx", ".xlsb"]:
-            # Guard: check for HTML content (common in 404/redirects mislabeled as Excel)
+            # Guard: check for HTML content
             with open(file_path, "rb") as f:
                 header = f.read(500)
                 if b"<!DOCTYPE" in header.upper() or b"<HTML" in header.upper():
                     raise ValueError(
-                        f"File {file_name} appears to be an HTML error page, not a valid Excel file. Please check if the source URL is correct."
+                        f"File {file_name} appears to be an HTML error page, not a valid Excel file."
                     )
 
-            # Explicitly specify engine as requested by Pandas error message
-            engine_name = "openpyxl" if ext.lower() == ".xlsx" else "pyxlsb"
-            df = read_excel_with_dynamic_header(file_path, engine=engine_name)
+            last_sheet = None
+            if ext.lower() == ".xlsx":
+                engine_name = "openpyxl"
+                # Load workbook in read-only mode to get sheet names quickly
+                wb = load_workbook(file_path, read_only=True)
+                last_sheet = wb.sheetnames[-1]
+                wb.close()
+            else:
+                engine_name = "pyxlsb"
+                # Access sheet names for binary excel files
+                with open_xlsb(file_path) as wb:
+                    last_sheet = wb.sheets[-1]  # wb.sheets returns list of sheet names
+
+            # Pass the last sheet name to your reading function
+            df = read_excel_with_dynamic_header(
+                file_path, engine=engine_name, sheet_name=last_sheet
+            )
         else:
             df = pd.read_csv(file_path)
 

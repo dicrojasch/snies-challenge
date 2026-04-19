@@ -11,7 +11,6 @@ WITH base AS (
         institution_id,
         parent_institution_id,
         INITCAP(TRIM(institution_name))  AS institution_name,
-        TRIM(branch_type)                AS branch_type,
         sector_id,
         character_id,
         ies_municipality_id              AS municipality_id
@@ -25,7 +24,6 @@ from_teachers AS (
         institution_id,
         parent_institution_id,
         INITCAP(TRIM(institution_name))  AS institution_name,
-        TRIM(branch_type)                AS branch_type,
         sector_id,
         character_id,
         ies_municipality_id              AS municipality_id
@@ -46,7 +44,6 @@ SELECT DISTINCT ON (institution_id)
     institution_id,
     parent_institution_id,
     institution_name,
-    branch_type,
     sector_id,
     character_id,
     municipality_id,

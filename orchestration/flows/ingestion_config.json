@@ -1,4 +1,11 @@
 {
-  "allowed_prefixes": ["estudiantes_inscritos", "docentes"],
-  "allowed_years": [2022, 2023, 2024]
+  "allowed_prefixes": [
+    "estudiantes_matriculados",
+    "docentes"
+  ],
+  "allowed_years": [
+    2022,
+    2023,
+    2024
+  ]
 }
