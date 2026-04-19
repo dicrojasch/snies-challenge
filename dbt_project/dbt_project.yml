@@ -18,9 +18,12 @@ clean-targets:
 
 models:
   snies_challenge:
+    staging:
+      +schema: staging
+      +materialized: view
     silver:
       +schema: silver
-      +materialized: view
+      +materialized: table
     gold:
       +schema: gold
       +materialized: table

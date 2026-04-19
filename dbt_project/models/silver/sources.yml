@@ -3,10 +3,77 @@ version: 2
 sources:
   - name: bronze
     schema: bronze
+    description: "Raw SNIES microdata loaded from Excel files."
     tables:
-      - name: docentes_2022
       - name: estudiantes_inscritos_2022
-      - name: docentes_2023
-      - name: estudiantes_inscritos_2023
-      - name: docentes_2024
-      - name: estudiantes_inscritos_2024
+        description: "Raw enrollment records (estudiantes inscritos) across all years."
+        columns:
+          - name: código_de_la_institución
+          - name: ies_padre
+          - name: institución_de_educación_superior_ies
+          - name: principal_o_seccional
+          - name: id_sector_ies
+          - name: sector_ies
+          - name: id_caracter
+          - name: caracter_ies
+          - name: código_del_departamento_ies
+          - name: departamento_de_domicilio_de_la_ies
+          - name: código_del_municipio_ies
+          - name: municipio_de_domicilio_de_la_ies
+          - name: código_snies_del_programa
+          - name: programa_académico
+          - name: id_nivel_académico
+          - name: nivel_académico
+          - name: id_nivel_de_formación
+          - name: nivel_de_formación
+          - name: id_metodología
+          - name: metodología
+          - name: id_área
+          - name: área_de_conocimiento
+          - name: id_núcleo
+          - name: núcleo_básico_del_conocimiento_nbc
+          - name: id_cine_campo_amplio
+          - name: desc_cine_campo_amplio
+          - name: id_cine_campo_especifico
+          - name: desc_cine_campo_especifico
+          - name: id_cine_codigo_detallado
+          - name: desc_cine_codigo_detallado
+          - name: código_del_departamento_programa
+          - name: departamento_de_oferta_del_programa
+          - name: código_del_municipio_programa
+          - name: municipio_de_oferta_del_programa
+          - name: id_sexo
+          - name: sexo
+          - name: año
+          - name: semestre
+          - name: inscritos
+          - name: loaded_at
+
+      - name: docentes_2022
+        description: "Raw teacher records (docentes) across all years."
+        columns:
+          - name: código_de_la_institución
+          - name: ies_padre
+          - name: institución_de_educación_superior_ies
+          - name: principal_o_seccional
+          - name: id_sector_ies
+          - name: sector_ies
+          - name: id_caracter
+          - name: caracter_ies
+          - name: código_del_departamento_ies
+          - name: departamento_de_domicilio_de_la_ies
+          - name: código_del_municipio_ies
+          - name: municipio_de_domicilio_de_la_ies
+          - name: id_sexo
+          - name: sexo_del_docente
+          - name: id_máximo_nivel_de_formación_del_docente
+          - name: máximo_nivel_de_formación_del_docente
+          - name: nivel_cine
+          - name: id_tiempo_de_dedicación
+          - name: tiempo_de_dedicación_del_docente
+          - name: id_tipo_de_contrato
+          - name: tipo_de_contrato_del_docente
+          - name: año
+          - name: semestre
+          - name: no_de_docentes
+          - name: loaded_at

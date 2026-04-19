@@ -1,0 +1,406 @@
+version: 2
+
+# =============================================================================
+# SILVER LAYER — Schema contracts, tests, and documentation
+# Enforces 3NF: unique + not_null on every PK; relationships on every FK.
+# =============================================================================
+
+models:
+
+  # ── Dimension: Sectors ──────────────────────────────────────────────────────
+  - name: dim_sectors
+    description: >
+      Sector of Higher Education Institution (e.g. Official / Private).
+      NK and PK: sector_id sourced directly from SNIES.
+    columns:
+      - name: sector_id
+        description: "SNIES sector identifier (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: sector_name
+        description: "Human-readable sector name."
+        tests:
+          - not_null
+
+  # ── Dimension: Characters ───────────────────────────────────────────────────
+  - name: dim_characters
+    description: >
+      Institutional character/type (Universidad, Institución Tecnológica, etc.).
+    columns:
+      - name: character_id
+        description: "SNIES character identifier (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: character_name
+        description: "Human-readable character name."
+        tests:
+          - not_null
+
+  # ── Dimension: Gender ────────────────────────────────────────────────────────
+  - name: dim_gender
+    description: "Gender dimension unified across students and teachers sources."
+    columns:
+      - name: gender_id
+        description: "SNIES gender identifier (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: gender_name
+        description: "Gender label (e.g. Masculino, Femenino)."
+        tests:
+          - not_null
+
+  # ── Dimension: Geography ────────────────────────────────────────────────────
+  - name: dim_geography
+    description: >
+      Municipality–Department hierarchy. All geographic references in the Silver
+      layer point here. Municipality code is the PK; department is a non-key
+      functional dependency (municipality → department).
+    columns:
+      - name: municipality_id
+        description: "DANE municipality code (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: municipality_name
+        description: "Municipality name."
+        tests:
+          - not_null
+      - name: department_id
+        description: "DANE department code (FK to itself — hierarchy encoded here)."
+        tests:
+          - not_null
+      - name: department_name
+        description: "Department name."
+        tests:
+          - not_null
+
+  # ── Dimension: Formation Levels ─────────────────────────────────────────────
+  - name: dim_formation_levels
+    description: >
+      Academic formation levels shared by students (programme level) and
+      teachers (maximum attained level).
+    columns:
+      - name: formation_level_id
+        description: "SNIES formation level identifier (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: formation_level_name
+        description: "Formation level name."
+        tests:
+          - not_null
+
+  # ── Dimension: Academic Levels ──────────────────────────────────────────────
+  - name: dim_academic_levels
+    description: "Top-level academic category (Pregrado / Posgrado, etc.)."
+    columns:
+      - name: academic_level_id
+        description: "SNIES academic level identifier (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: academic_level_name
+        description: "Academic level name."
+        tests:
+          - not_null
+
+  # ── Dimension: CINE Classifications ─────────────────────────────────────────
+  - name: dim_cine_classifications
+    description: >
+      UNESCO CINE / ISCED field-of-study hierarchy with three levels:
+      broad field → specific field → detailed field.
+      The detailed field is the grain (PK).
+    columns:
+      - name: cine_detailed_field_id
+        description: "CINE detailed field code (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: cine_detailed_field_name
+        description: "Detailed field name."
+        tests:
+          - not_null
+      - name: cine_specific_field_id
+        description: "CINE specific field code."
+        tests:
+          - not_null
+      - name: cine_specific_field_name
+        description: "Specific field name."
+        tests:
+          - not_null
+      - name: cine_broad_field_id
+        description: "CINE broad field code."
+        tests:
+          - not_null
+      - name: cine_broad_field_name
+        description: "Broad field name."
+        tests:
+          - not_null
+
+  # ── Dimension: Dedication Types ─────────────────────────────────────────────
+  - name: dim_dedication_types
+    description: "Teacher time-dedication type (Tiempo Completo, Medio Tiempo, etc.)."
+    columns:
+      - name: dedication_type_id
+        description: "SNIES dedication type identifier (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: dedication_type_name
+        description: "Dedication type name."
+        tests:
+          - not_null
+
+  # ── Dimension: Contract Types ───────────────────────────────────────────────
+  - name: dim_contract_types
+    description: "Teacher contract type (Planta, Ocasional, Cátedra, etc.)."
+    columns:
+      - name: contract_type_id
+        description: "SNIES contract type identifier (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: contract_type_name
+        description: "Contract type name."
+        tests:
+          - not_null
+
+  # ── Dimension: Academic Programs ────────────────────────────────────────────
+  - name: dim_academic_programs
+    description: >
+      Academic programmes registered in SNIES. Primary key is the SNIES
+      programme code (program_id). FK references enforce dimensional integrity.
+    columns:
+      - name: program_id
+        description: "SNIES programme code (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: program_name
+        description: "Programme name."
+        tests:
+          - not_null
+      - name: methodology_id
+        description: "Delivery methodology identifier."
+        tests:
+          - not_null
+      - name: knowledge_area_id
+        description: "Knowledge area identifier."
+        tests:
+          - not_null
+      - name: nbc_id
+        description: "NBC (Núcleo Básico del Conocimiento) identifier."
+        tests:
+          - not_null
+      - name: academic_level_id
+        description: "FK to dim_academic_levels."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_academic_levels')
+                field: academic_level_id
+      - name: formation_level_id
+        description: "FK to dim_formation_levels."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_formation_levels')
+                field: formation_level_id
+      - name: cine_detailed_field_id
+        description: "FK to dim_cine_classifications."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_cine_classifications')
+                field: cine_detailed_field_id
+      - name: offer_municipality_id
+        description: "Primary offer municipality. FK to dim_geography."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_geography')
+                field: municipality_id
+
+  # ── Dimension: Institutions ─────────────────────────────────────────────────
+  - name: dim_institutions
+    description: >
+      Higher Education Institutions (IES) in Colombia.
+      Includes is_sue_member flag for the Business Rule requirement.
+      Self-referencing parent_institution_id captures the SUE hierarchy.
+    columns:
+      - name: institution_id
+        description: "SNIES institution code (PK)."
+        tests:
+          - unique
+          - not_null
+      - name: institution_name
+        description: "Official institution name."
+        tests:
+          - not_null
+      - name: branch_type
+        description: "Principal or branch campus."
+      - name: is_sue_member
+        description: >
+          TRUE if the institution is part of the SUE
+          (Sistema Universitario Estatal — public system).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+      - name: sector_id
+        description: "FK to dim_sectors."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sectors')
+                field: sector_id
+      - name: character_id
+        description: "FK to dim_characters."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_characters')
+                field: character_id
+      - name: municipality_id
+        description: "FK to dim_geography (IES location)."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_geography')
+                field: municipality_id
+
+  # ── Transaction: Student Enrollment Records ─────────────────────────────────
+  - name: student_enrollment_records
+    description: >
+      Central enrollment transaction table (Inmon intersection entity).
+      Grain: institution × programme × gender × year × semester.
+      Holds only FKs and the single quantitative measure (enrollment_count).
+    columns:
+      - name: enrollment_record_id
+        description: "Surrogate PK (MD5 hash of grain columns)."
+        tests:
+          - unique
+          - not_null
+      - name: institution_id
+        description: "FK to dim_institutions."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_institutions')
+                field: institution_id
+      - name: program_id
+        description: "FK to dim_academic_programs."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_academic_programs')
+                field: program_id
+      - name: gender_id
+        description: "FK to dim_gender."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_gender')
+                field: gender_id
+      - name: data_year
+        description: "Academic year of the record."
+        tests:
+          - not_null
+      - name: semester
+        description: "Semester (1 or 2)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2]
+      - name: enrollment_count
+        description: "Number of enrolled students (inscritos)."
+        tests:
+          - not_null
+
+  # ── Transaction: Teacher Records ────────────────────────────────────────────
+  - name: teacher_records
+    description: >
+      Central teacher transaction table (Inmon intersection entity).
+      Grain: institution × gender × formation_level × dedication_type
+             × contract_type × cine_level_name × year × semester.
+      Holds only FKs, the text-only cine_level_name attribute, and teacher_count.
+    columns:
+      - name: teacher_record_id
+        description: "Surrogate PK (MD5 hash of grain columns)."
+        tests:
+          - unique
+          - not_null
+      - name: institution_id
+        description: "FK to dim_institutions."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_institutions')
+                field: institution_id
+      - name: gender_id
+        description: "FK to dim_gender."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_gender')
+                field: gender_id
+      - name: formation_level_id
+        description: "FK to dim_formation_levels."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_formation_levels')
+                field: formation_level_id
+      - name: dedication_type_id
+        description: "FK to dim_dedication_types."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dedication_types')
+                field: dedication_type_id
+      - name: contract_type_id
+        description: "FK to dim_contract_types."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_contract_types')
+                field: contract_type_id
+      - name: cine_level_name
+        description: >
+          CINE level text label from teachers source. No numeric FK available;
+          documented deliberate 3NF exception.
+      - name: data_year
+        description: "Academic year of the record."
+        tests:
+          - not_null
+      - name: semester
+        description: "Semester (1 or 2)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2]
+      - name: teacher_count
+        description: "Number of teachers (no_de_docentes)."
+        tests:
+          - not_null

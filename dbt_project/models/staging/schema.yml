@@ -1,0 +1,71 @@
+version: 2
+
+# =============================================================================
+# STAGING LAYER — Sources and model contracts
+# =============================================================================
+
+models:
+
+  - name: stg_students
+    description: >
+      Staging model for Bronze `students` table. Casts all columns to correct
+      types and translates Spanish column names to English snake_case.
+      One row per source row (no aggregation).
+    columns:
+      - name: institution_id
+        description: "SNIES institution code."
+        tests: [not_null]
+      - name: program_id
+        description: "SNIES programme code."
+        tests: [not_null]
+      - name: gender_id
+        description: "Gender identifier."
+        tests: [not_null]
+      - name: data_year
+        description: "Academic year."
+        tests: [not_null]
+      - name: semester
+        description: "Academic semester (1 or 2)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2]
+      - name: enrollment_count
+        description: "Number of enrolled students."
+        tests: [not_null]
+
+  - name: stg_teachers
+    description: >
+      Staging model for Bronze `teachers` table. Casts all columns to correct
+      types and translates Spanish column names to English snake_case.
+      One row per source row (no aggregation).
+    columns:
+      - name: institution_id
+        description: "SNIES institution code."
+        tests: [not_null]
+      - name: gender_id
+        description: "Gender identifier."
+        tests: [not_null]
+      - name: formation_level_id
+        description: "Formation level identifier."
+        tests: [not_null]
+      - name: dedication_type_id
+        description: "Dedication type identifier."
+        tests: [not_null]
+      - name: contract_type_id
+        description: "Contract type identifier."
+        tests: [not_null]
+      - name: data_year
+        description: "Academic year."
+        tests: [not_null]
+      - name: semester
+        description: "Academic semester (1 or 2)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2]
+      - name: teacher_count
+        description: "Number of teachers."
+        tests: [not_null]
