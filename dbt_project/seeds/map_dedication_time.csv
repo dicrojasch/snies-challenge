@@ -1,0 +1,10 @@
+source_dedication_id,source_dedication_name,target_dedication_id,target_dedication_name
+1,Sin Información,0,Sin Información
+0,Sin Información,0,Sin Información
+-1,Unknown,0,Sin Información
+3,Medio Tiempo,1,Medio Tiempo
+2,Medio Tiempo,1,Medio Tiempo
+1,Tiempo Completo O Exclusiva,2,Tiempo Completo
+4,Tiempo Completo O Exclusiva,2,Tiempo Completo
+2,Catedra,3,Catedra
+4,Catedra,3,Catedra

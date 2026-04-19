@@ -11,7 +11,44 @@
 -- Metric: teacher_count (no_de_docentes)
 -- =============================================================================
 
-WITH stg AS (
+-- models/silver/teacher_records.sql
+
+WITH raw_stg AS (
+    SELECT
+        institution_id,
+        gender_id,
+        -- Traemos ID y Nombre para el JOIN con el Seed
+        formation_level_id AS src_formation_id,
+        formation_level_name AS src_formation_name,
+        dedication_time_id AS src_dedication_id,
+        dedication_time_name AS src_dedication_name,
+        contract_type_id,
+        data_year,
+        semester,
+        teacher_count
+    FROM {{ ref('stg_teachers') }}
+),
+
+mapped AS (
+    SELECT
+        r.institution_id,
+        r.gender_id,
+        COALESCE(fl.target_id, r.src_formation_id, 0) AS formation_level_id,
+        COALESCE(dt.target_dedication_id, r.src_dedication_id, 0) AS dedication_time_id,
+        r.contract_type_id,
+        r.data_year,
+        r.semester,
+        r.teacher_count
+    FROM raw_stg r
+    LEFT JOIN {{ ref('map_formation_levels') }} fl
+        ON r.src_formation_id = fl.src_id
+        AND INITCAP(TRIM(r.src_formation_name)) = INITCAP(TRIM(fl.src_name))
+    LEFT JOIN {{ ref('map_dedication_time') }} dt
+        ON r.src_dedication_id = dt.source_dedication_id
+        AND r.src_dedication_name = dt.source_dedication_name
+),
+
+final_grouped AS (
     SELECT
         institution_id,
         gender_id,
@@ -21,22 +58,10 @@ WITH stg AS (
         data_year,
         semester,
         SUM(teacher_count) AS teacher_count
-    FROM {{ ref('stg_teachers') }}
-    WHERE institution_id    IS NOT NULL
-      AND gender_id         IS NOT NULL
+    FROM mapped
+    WHERE institution_id IS NOT NULL 
       AND formation_level_id IS NOT NULL
-      AND dedication_time_id IS NOT NULL
-      AND contract_type_id  IS NOT NULL
-      AND data_year         IS NOT NULL
-      AND semester          IS NOT NULL
-    GROUP BY
-        institution_id,
-        gender_id,
-        formation_level_id,
-        dedication_time_id,
-        contract_type_id,
-        data_year,
-        semester
+    GROUP BY 1, 2, 3, 4, 5, 6, 7
 )
 
 SELECT
@@ -48,13 +73,6 @@ SELECT
         'contract_type_id',
         'data_year',
         'semester'
-    ]) }}                   AS teacher_record_id,
-    institution_id,
-    gender_id,
-    formation_level_id,
-    dedication_time_id,
-    contract_type_id,
-    data_year,
-    semester,
-    teacher_count
-FROM stg
+    ]) }} AS teacher_record_id,
+    *
+FROM final_grouped

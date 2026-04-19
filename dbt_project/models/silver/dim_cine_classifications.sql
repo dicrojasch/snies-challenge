@@ -8,12 +8,36 @@
 -- Source: students only (teachers have only a text label, handled in teacher_records).
 -- =============================================================================
 
+WITH students_data AS (
+    SELECT DISTINCT
+        cine_detailed_field_id,
+        INITCAP(TRIM(cine_detailed_field_name)) AS cine_detailed_field_name,
+        cine_specific_field_id,
+        INITCAP(TRIM(cine_specific_field_name)) AS cine_specific_field_name,
+        cine_broad_field_id,
+        INITCAP(TRIM(cine_broad_field_name))    AS cine_broad_field_name
+    FROM {{ ref('stg_students') }}
+    WHERE cine_detailed_field_id IS NOT NULL
+),
+
+mapped AS (
+    SELECT
+        s.cine_detailed_field_id AS cine_detailed_field_id,
+        COALESCE(m.detailed_name, s.cine_detailed_field_name) AS cine_detailed_field_name,
+        COALESCE(m.specific_id, s.cine_specific_field_id) AS cine_specific_field_id,
+        COALESCE(m.specific_name, s.cine_specific_field_name) AS cine_specific_field_name,
+        COALESCE(m.broad_id, s.cine_broad_field_id) AS cine_broad_field_id,
+        COALESCE(m.broad_name, s.cine_broad_field_name) AS cine_broad_field_name
+    FROM students_data s
+    LEFT JOIN {{ ref('map_cine_fields') }} m
+        ON s.cine_detailed_field_id = m.detailed_id
+)
+
 SELECT DISTINCT
     cine_detailed_field_id,
     INITCAP(TRIM(cine_detailed_field_name)) AS cine_detailed_field_name,
     cine_specific_field_id,
     INITCAP(TRIM(cine_specific_field_name)) AS cine_specific_field_name,
     cine_broad_field_id,
-    INITCAP(TRIM(cine_broad_field_name))    AS cine_broad_field_name
-FROM {{ ref('stg_students') }}
-WHERE cine_detailed_field_id IS NOT NULL
+    INITCAP(TRIM(cine_broad_field_name)) AS cine_broad_field_name
+FROM mapped

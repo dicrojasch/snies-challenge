@@ -1,0 +1,23 @@
+src_id,src_name,target_id,target_name
+-1,Unknown,0,No Definido
+-1,,0,No Definido
+1,Posdoctorado,1,Posdoctorado
+1,Especialización Universitaria,4,Especialización
+2,Doctorado,2,Doctorado
+2,Maestría,3,Maestría
+3,Doctorado,2,Doctorado
+3,Maestría,3,Maestría
+4,Formación Técnica Profesional,8,Técnico Profesional
+4,Especialización Universitaria,4,Especialización
+5,Especialización Técnico Profesional,7,Especialización Técnica
+5,Tecnológico,9,Tecnológico
+6,Universitario,5,Universitario
+6,Especialización Tecnológica,6,Especialización Tecnológica
+7,Especialización Técnico Profesional,7,Especialización Técnica
+7,Universitario,5,Universitario
+8,Tecnológico,9,Tecnológico
+8,Especialización Tecnológica,6,Especialización Tecnológica
+9,Formación Técnica Profesional,8,Técnico Profesional
+10,Docente Sin Título,11,Docente Sin Título
+10,Especialización Médico Quirúrgica,10,Especialización Médico Quirúrgica
+11,Especialización Médico Quirúrgica,10,Especialización Médico Quirúrgica

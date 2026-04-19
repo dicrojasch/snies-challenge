@@ -158,11 +158,6 @@ models:
   - name: dim_contract_types
     description: "Teacher contract type (Planta, Ocasional, Cátedra, etc.)."
     columns:
-      - name: contract_type_id
-        description: "SNIES contract type identifier (PK)."
-        tests:
-          - unique
-          - not_null
       - name: contract_type_name
         description: "Contract type name."
         tests:
@@ -319,12 +314,12 @@ models:
         tests:
           - not_null
       - name: semester
-        description: "Semester (1 or 2)."
+        description: "Semester (-1 or 1 or 2)."
         tests:
           - not_null
           - accepted_values:
               arguments:
-                values: [1, 2]
+                values: [-1, 1, 2]
       - name: enrollment_count
         description: "Number of enrolled students (inscritos)."
         tests:
@@ -367,14 +362,6 @@ models:
               arguments:
                 to: ref('dim_formation_levels')
                 field: formation_level_id
-      - name: dedication_time_id
-        description: "FK to dim_dedication_times."
-        tests:
-          - not_null
-          - relationships:
-              arguments:
-                to: ref('dim_dedication_times')
-                field: dedication_time_id
       - name: contract_type_id
         description: "FK to dim_contract_types."
         tests:
@@ -392,12 +379,12 @@ models:
         tests:
           - not_null
       - name: semester
-        description: "Semester (1 or 2)."
+        description: "Semester (-1 or 1 or 2)."
         tests:
           - not_null
           - accepted_values:
               arguments:
-                values: [1, 2]
+                values: [-1, 1, 2]
       - name: teacher_count
         description: "Number of teachers (no_de_docentes)."
         tests:

@@ -25,12 +25,12 @@ models:
         description: "Academic year."
         tests: [not_null]
       - name: semester
-        description: "Academic semester (1 or 2)."
+        description: "Academic semester (-1 or 1 or 2)."
         tests:
           - not_null
           - accepted_values:
               arguments:
-                values: [1, 2]
+                values: [-1, 1, 2]
       - name: enrollment_count
         description: "Number of enrolled students."
         tests: [not_null]
@@ -60,12 +60,12 @@ models:
         description: "Academic year."
         tests: [not_null]
       - name: semester
-        description: "Academic semester (1 or 2)."
+        description: "Academic semester (-1 or 1 or 2)."
         tests:
           - not_null
           - accepted_values:
               arguments:
-                values: [1, 2]
+                values: [-1, 1, 2]
       - name: teacher_count
         description: "Number of teachers."
         tests: [not_null]

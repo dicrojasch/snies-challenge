@@ -5,6 +5,8 @@
 -- plus IES location from teachers.  Municipality code is the PK.
 -- =============================================================================
 
+-- models/silver/dim_geography.sql
+
 WITH ies_geo_students AS (
     SELECT DISTINCT
         ies_municipality_id   AS municipality_id,
@@ -41,11 +43,26 @@ unioned AS (
     SELECT * FROM program_geo
     UNION
     SELECT * FROM ies_geo_teachers
+),
+
+cleaned_names AS (
+    SELECT DISTINCT
+        u.municipality_id,
+        -- Use the Seed name if available, otherwise clean the source name
+        COALESCE(map.target_municipality_name, INITCAP(TRIM(u.municipality_name))) AS municipality_name,
+        COALESCE(map.target_department_id, u.department_id) AS department_id,
+        COALESCE(map.target_department_name, INITCAP(TRIM(u.department_name))) AS department_name
+    FROM unioned u
+    LEFT JOIN {{ ref('map_geography') }} map
+        ON u.municipality_id = map.municipality_id
 )
 
+-- Final SELECT DISTINCT to collapse cases like 'Cali' and 'Santiago de Cali'
 SELECT
     municipality_id,
-    INITCAP(TRIM(municipality_name)) AS municipality_name,
+    -- Ensure "D.c." becomes "D.C." if needed via REPLACE
+    REPLACE(municipality_name, 'D.c.', 'D.C.') AS municipality_name,
     department_id,
-    INITCAP(TRIM(department_name))   AS department_name
-FROM unioned
+    REPLACE(department_name, 'D.c.', 'D.C.') AS department_name
+FROM cleaned_names
+GROUP BY 1, 2, 3, 4

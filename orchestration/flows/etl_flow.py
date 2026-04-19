@@ -66,11 +66,11 @@ def file_audit():
     for filename in os.listdir(RAW_FILES_DIR):
         filepath = os.path.join(RAW_FILES_DIR, filename)
         
-        # 1. Filter by prefix and year
-        matches_prefix = any(filename.lower().startswith(p.lower()) for p in prefixes)
-        matches_year = any(y in filename for y in years)
+        # 1. Filter by prefix and year (Strict match: prefix_year)
+        stem = os.path.splitext(filename)[0].lower()
+        matches_criteria = any(stem == f"{p.lower()}_{y}" for p in prefixes for y in years)
         
-        if not (matches_prefix and matches_year):
+        if not matches_criteria:
             logger.debug(f"Skipping {filename} (Criteria no match)")
             continue
 

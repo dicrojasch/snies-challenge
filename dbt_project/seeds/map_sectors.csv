@@ -1,0 +1,6 @@
+src_id,src_name,target_id,target_name
+1,Oficial,1,Oficial
+2,Privado,2,Privada
+2,Privada,2,Privada
+-1,,0,No Definido
+-1,Unknown,0,No Definido
