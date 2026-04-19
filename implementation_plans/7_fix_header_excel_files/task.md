@@ -1,0 +1,5 @@
+- [x] Implement `read_excel_with_dynamic_header` function in `scripts/ingest_data.py`
+- [x] Update `load_file` to use the new function
+- [x] Create a test Excel file with metadata to verify detection
+- [x] Verify implementation with the test file
+- [x] Remove test artifacts

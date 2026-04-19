@@ -1,0 +1,34 @@
+Act as a Senior Data Architect and dbt Expert.
+
+Objective: Design a Normalized Entity-Relationship Model (3NF) for the Silver Layer of a Data Lakehouse using dbt, following Inmon's Methodology. The source data comes from the Colombian Higher Education system (SNIES).
+
+Context:
+I have two raw tables in the Bronze Layer with the following columns:
+
+# Table: students (estudiantes)
+código_de_la_institución, ies_padre, institución_de_educación_superior_ies, principal_o_seccional, id_sector_ies, sector_ies, id_caracter, caracter_ies, código_del_departamento_ies, departamento_de_domicilio_de_la_ies, código_del_municipio_ies, municipio_de_domicilio_de_la_ies, código_snies_del_programa, programa_académico, id_nivel_académico, nivel_académico, id_nivel_de_formación, nivel_de_formación, id_metodología, metodología, id_área, área_de_conocimiento, id_núcleo, núcleo_básico_del_conocimiento_nbc, id_cine_campo_amplio, desc_cine_campo_amplio, id_cine_campo_especifico, desc_cine_campo_especifico, id_cine_codigo_detallado, desc_cine_codigo_detallado, código_del_departamento_programa, departamento_de_oferta_del_programa, código_del_municipio_programa, municipio_de_oferta_del_programa, id_sexo, sexo, año, semestre, inscritos, loaded_at
+
+# Table: teachers (docentes)
+código_de_la_institución, ies_padre, institución_de_educación_superior_ies, principal_o_seccional, id_sector_ies, sector_ies, id_caracter, caracter_ies, código_del_departamento_ies, departamento_de_domicilio_de_la_ies, código_del_municipio_ies, municipio_de_domicilio_de_la_ies, id_sexo, sexo_del_docente, id_máximo_nivel_de_formación_del_docente, máximo_nivel_de_formación_del_docente, nivel_cine, id_tiempo_de_dedicación, tiempo_de_dedicación_del_docente, id_tipo_de_contrato, tipo_de_contrato_del_docente, año, semestre, no_de_docentes, loaded_at
+
+Requirements for Inmon Design (3NF):
+
+Language: All SQL code, table names, and column names must be in English (snake_case).
+
+Staging Layer: Create staging models (stg_) for initial cleaning and renaming.
+
+Silver Layer (Normalization):
+
+Decompose the flat tables into separate entities to eliminate redundancy.
+
+Suggested Entities: institutions, sectors, characters, geography (municipalities/departments), academic_programs, academic_levels, cine_classifications, gender, contract_types, and dedication_types.
+
+Create two central Transaction/Intersection tables: student_enrollment_records and teacher_records that only store Foreign Keys and the quantitative metrics (enrollment_count, teacher_count).
+
+Referential Integrity: >    - Ensure every table has a Primary Key.
+
+Use standard integer IDs where available from source; otherwise, use dbt_utils.generate_surrogate_key.
+
+Quality & Documentation: Generate a schema.yml file with strict unique, not_null, and relationships tests to enforce the 3NF constraints.
+
+Output: Provide the dbt SQL models and the YAML configuration.

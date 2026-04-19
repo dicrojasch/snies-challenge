@@ -1,0 +1,4 @@
+- [x] Create `orchestration/flows/ingestion_config.json`
+- [x] Modify `orchestration/flows/etl_flow.py` to load config and filter files
+- [x] Verify changes with `test_audit.py`
+- [x] Create `walkthrough.md`
