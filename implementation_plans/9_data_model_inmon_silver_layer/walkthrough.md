@@ -15,7 +15,7 @@ I have successfully designed and implemented a Normalized Entity-Relationship Mo
 
 ### 3. Silver Layer (3NF Normalization)
 I decomposed the flat tables into 11 distinct entities:
-- **Dimensions**: `dim_institutions`, `dim_academic_programs`, `dim_geography`, `dim_sectors`, `dim_characters`, `dim_formation_levels`, `dim_academic_levels`, `dim_cine_classifications`, `dim_gender`, `dim_contract_types`, and `dim_dedication_types`.
+- **Dimensions**: `dim_institutions`, `dim_academic_programs`, `dim_geography`, `dim_sectors`, `dim_characters`, `dim_formation_levels`, `dim_academic_levels`, `dim_cine_classifications`, `dim_gender`, `dim_contract_types`, and `dim_dedication_times`.
 - **Transactions**: 
     - `student_enrollment_records`: Intersection table for enrollment metrics.
     - `teacher_records`: Intersection table for teacher metrics.

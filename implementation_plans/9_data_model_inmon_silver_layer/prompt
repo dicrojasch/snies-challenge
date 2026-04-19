@@ -21,7 +21,7 @@ Silver Layer (Normalization):
 
 Decompose the flat tables into separate entities to eliminate redundancy.
 
-Suggested Entities: institutions, sectors, characters, geography (municipalities/departments), academic_programs, academic_levels, cine_classifications, gender, contract_types, and dedication_types.
+Suggested Entities: institutions, sectors, characters, geography (municipalities/departments), academic_programs, academic_levels, cine_classifications, gender, contract_types, and dedication_times.
 
 Create two central Transaction/Intersection tables: student_enrollment_records and teacher_records that only store Foreign Keys and the quantitative metrics (enrollment_count, teacher_count).
 

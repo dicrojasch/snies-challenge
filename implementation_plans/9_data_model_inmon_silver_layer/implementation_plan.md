@@ -49,7 +49,7 @@ PK: `character_id`. Name: `character_name`.
 PK: `municipality_id`. Includes `municipality_name`, `department_id`, and `department_name`. Combines locations from institutions and programs.
 
 #### [NEW] dbt_project/models/silver/dim_institutions.sql
-PK: `institution_id`. Includes `parent_institution_id`, `institution_name`, `branch_type`, and foreign keys to `dim_sectors`, `dim_characters`, and `dim_geography`.
+PK: `institution_id`. Includes `parent_institution_id`, `institution_name`, and foreign keys to `dim_sectors`, `dim_characters`, and `dim_geography`.
 
 #### [NEW] dbt_project/models/silver/dim_academic_levels.sql
 PK: `academic_level_id`. Name: `academic_level_name`.
@@ -69,7 +69,7 @@ PK: `gender_id`. Name: `gender_name`. Derived from both data sources.
 #### [NEW] dbt_project/models/silver/dim_contract_types.sql
 PK: `contract_type_id`. Name: `contract_type_name`. From teachers' source.
 
-#### [NEW] dbt_project/models/silver/dim_dedication_types.sql
+#### [NEW] dbt_project/models/silver/dim_dedication_times.sql
 PK: `dedication_id`. Name: `dedication_name`. From teachers' source.
 
 ---
