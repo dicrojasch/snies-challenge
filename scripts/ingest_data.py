@@ -68,7 +68,6 @@ def read_excel_with_dynamic_header(
             df = pd.read_excel(
                 file_path,
                 engine=engine,
-                nrows=20,
                 sheet_name=sheet_name,
                 skiprows=header_idx,
             )
