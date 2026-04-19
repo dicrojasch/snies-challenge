@@ -1,0 +1,22 @@
+in 
+
+ingest_data.py
+I am working with several Excel files that have inconsistent metadata headers. The actual data table does not start at row 0. In some files, it starts at row 6, in others at row 8, and there are often empty rows in between.
+
+Header Structure: The first few rows contain metadata like "Ministerio de Educación", "Matriculados", "Fecha de corte", and "Fuente". The real table starts after these descriptions and potential blank lines.
+
+Task: Provide a Python function using pandas and openpyxl that:
+
+Dynamically identifies the correct header row by searching for a specific keyword (e.g., a known column name like "ID" or "Nombre").
+
+Skips all metadata rows and empty rows before that header.
+
+Loads the data into a clean DataFrame.
+
+Requirements:
+
+The code and comments must be in English.
+
+Ensure the solution is robust enough to handle cases where the header might be at different indexes.
+
+Use engine='openpyxl' to avoid format detection errors.
