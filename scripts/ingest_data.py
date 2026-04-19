@@ -5,7 +5,7 @@ import os
 import re
 import logging
 import sys
-
+from secrets_manager import get_database_url
 # Configure standard logging
 logging.basicConfig(
     level=logging.DEBUG,
@@ -14,7 +14,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-DB_URL = os.getenv("DATABASE_URL", "postgresql://user:password@postgres:5432/snies")
+DB_URL = get_database_url()
 
 
 def get_engine():

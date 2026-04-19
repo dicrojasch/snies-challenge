@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     iputils-ping \
     gawk \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir prefect dbt-core dbt-postgres pandas sqlalchemy psycopg2-binary openpyxl pyxlsb

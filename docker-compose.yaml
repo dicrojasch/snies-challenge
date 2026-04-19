@@ -2,9 +2,12 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER_FILE: /run/secrets/db_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
       POSTGRES_DB: snies
+    secrets:
+      - db_user
+      - db_password
     ports:
       - "5432:5432"
     volumes:
@@ -18,7 +21,11 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://user:password@postgres:5432/snies
+      DB_USER_FILE: /run/secrets/db_user
+      DB_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_user
+      - db_password
     volumes:
       - ./scripts:/scripts
       - ./files:/files
@@ -30,8 +37,13 @@ services:
       context: ./orchestration
       dockerfile: Dockerfile
     environment:
-      DATABASE_URL: postgresql://user:password@postgres:5432/snies
-      PREFECT_API_URL: http://0.0.0.0:4200/api
+      DB_USER_FILE: /run/secrets/db_user
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      PREFECT_API_URL: http://127.0.0.1:4200/api
+    secrets:
+      - db_user
+      - db_password
+    entrypoint: /orchestration/entrypoint.sh
     command: prefect server start --host 0.0.0.0
     ports:
       - "4200:4200"
@@ -46,3 +58,9 @@ services:
 
 volumes:
   postgres_data:
+
+secrets:
+  db_user:
+    file: ./secrets/db_user
+  db_password:
+    file: ./secrets/db_password

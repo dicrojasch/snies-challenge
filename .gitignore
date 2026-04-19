@@ -15,3 +15,7 @@ dbt_project/logs/
 dbt_project/dbt_packages/
 
 raw_snies_files/
+
+# Secrets
+secrets/
+!secrets/.gitkeep

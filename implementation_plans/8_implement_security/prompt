@@ -1,0 +1,44 @@
+Role: Senior Data Engineer / Architect.
+Task: Refactor the current Docker-based data platform to implement Docker Secrets for sensitive credential management, replacing the plain .env approach.
+
+Context:
+
+Stack: PostgreSQL 15, Python (ETL), dbt, and Prefect.
+
+Database Name: snies.
+
+Requirement: Ensure all code, configuration keys, and comments are written in English.
+
+Specific Instructions:
+
+Docker Compose:
+
+Define secrets for db_user and db_password pointing to local files in a ./secrets/ directory.
+
+Update the postgres service to use POSTGRES_USER_FILE and POSTGRES_PASSWORD_FILE.
+
+Update the etl_prefect service to mount these secrets and define environment variables that point to the secret file paths (e.g., DB_PASSWORD_FILE: /run/secrets/db_password).
+
+Python Implementation:
+
+Create a utility function in Python to safely read secret values from /run/secrets/. It should fallback to environment variables for local development flexibility.
+
+Demonstrate how to reconstruct the DATABASE_URL for SQLAlchemy/Prefect using these secrets.
+
+dbt Integration:
+
+Provide a shell script (entrypoint.sh) or a method to export these secrets as environment variables so that dbt can consume them in profiles.yml using the env_var function.
+
+Security Best Practices:
+
+Include a .gitignore snippet to protect the secrets directory.
+
+Deliverables:
+
+Updated docker-compose.yml.
+
+Python helper module for secret management.
+
+Example entrypoint.sh for the dbt/Prefect container.
+
+A brief explanation of why this approach is superior for our production environment in Bogotá.
