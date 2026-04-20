@@ -61,6 +61,17 @@ The pipeline consists of four main tasks:
 ## 3. Operational Guide
 
 ### Deployment
+
+#### Configuration
+The system uses Docker Secrets for secure credential management. Before starting the infrastructure, create the `secrets` directory and define your database credentials:
+
+```bash
+mkdir -p secrets
+echo "snies_user" > secrets/db_user
+echo "snies_password" > secrets/db_password
+```
+
+#### Infrastructure Startup
 To start the infrastructure, run:
 ```bash
 docker-compose up -d
