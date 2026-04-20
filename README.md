@@ -139,7 +139,7 @@ We implement a three-layer architecture to ensure data quality, consistency, and
 - **Storage**: `gold` schema.
 
 > [!TIP]
-> **Data Traceability**: Traceability is guaranteed by **dbt lineage**. Every row can be traced back to its specific source file via the [`ingestion_audit`](./dbt_project/models/bronze/ingestion_audit.sql) table.
+> **Data Traceability & Lineage**: Traceability is guaranteed by **dbt lineage**. For a detailed visual representation of the entities, dimensions, and relationships across all layers, refer to the [**Data Model Documentation (models.md)**](./models.md).
 
 ---
 
@@ -248,6 +248,7 @@ This project was architected and implemented using the **Antigravity AI Agent**,
 | **Downloader** | [`scripts/get_data.sh`](./scripts/get_data.sh) | Bash script for file extraction. |
 | **Ingestion Script** | [`scripts/ingest_data.py`](./scripts/ingest_data.py) | Python logic for Excel loading. |
 | **dbt Models** | [`dbt_project/models/`](./dbt_project/models/) | SQL transformation layers. |
+| **Data Model** | [`models.md`](./models.md) | Visual diagram and entity relationships. |
 | **Infrastructure** | [`docker-compose.yaml`](./docker-compose.yaml) | Service configuration. |
 
 ---
