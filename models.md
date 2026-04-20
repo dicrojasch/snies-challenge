@@ -1,0 +1,111 @@
+```mermaid
+
+graph LR
+    %% =========================================================================
+    %% LAYER STYLING
+    %% =========================================================================
+    classDef bronze fill:#f9f9f9,stroke:#333,stroke-width:1px;
+    classDef staging fill:#eceff1,stroke:#607d8b,stroke-width:1px;
+    classDef silverDim fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
+    classDef silverFact fill:#b3e5fc,stroke:#01579b,stroke-width:2px,stroke-dasharray: 5 5;
+    classDef gold fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
+
+    %% =========================================================================
+    %% BRONZE LAYER (External Sources) 
+    %% =========================================================================
+    subgraph Bronze [Bronze Layer - Raw Sources]
+        direction TB
+        B_ST["Raw Students (Excel/CSV)"]:::bronze
+        B_TE["Raw Teachers (Excel/CSV)"]:::bronze
+    end
+
+    %% =========================================================================
+    %% STAGING LAYER (Cleaned/Typed)
+    %% =========================================================================
+    subgraph Staging [Staging Layer - Normalized Types]
+        direction TB
+        stg_students[stg_students]:::staging
+        stg_teachers[stg_teachers]:::staging
+    end
+
+    %% =========================================================================
+    %% SILVER LAYER (3NF Normalized Model)
+    %% =========================================================================
+    subgraph Silver [Silver Layer - 3NF Dimensions & Transactions]
+        direction TB
+        
+        %% Dimensions
+        dim_sectors[dim_sectors]:::silverDim
+        dim_characters[dim_characters]:::silverDim
+        dim_gender[dim_gender]:::silverDim
+        dim_geography[dim_geography]:::silverDim
+        dim_academic_levels[dim_academic_levels]:::silverDim
+        dim_formation_levels[dim_formation_levels]:::silverDim
+        dim_cine[dim_cine_classifications]:::silverDim
+        dim_dedication[dim_dedication_times]:::silverDim
+        dim_contract[dim_contract_types]:::silverDim
+        dim_programs[dim_academic_programs]:::silverDim
+        dim_institutions[dim_institutions]:::silverDim
+
+        %% Transaction Tables (Link Tables)
+        student_records[student_enrollment_records]:::silverFact
+        teacher_records[teacher_records]:::silverFact
+    end
+
+    %% =========================================================================
+    %% GOLD LAYER (Business Logic)
+    %% =========================================================================
+    subgraph Gold [Gold Layer - Aggregated Marts]
+        student_teacher_ratio[student_teacher_ratio]:::gold
+    end
+
+    %% =========================================================================
+    %% RELATIONSHIPS / LINEAGE
+    %% =========================================================================
+
+    %% Bronze to Staging
+    B_ST -.-> stg_students
+    B_TE -.-> stg_teachers
+
+    %% Staging to Silver Dimensions
+    stg_students --> dim_sectors
+    stg_students --> dim_characters
+    stg_students --> dim_geography
+    stg_students --> dim_academic_levels
+    stg_students --> dim_formation_levels
+    stg_students --> dim_cine
+    stg_students --> dim_programs
+    
+    stg_teachers --> dim_dedication
+    stg_teachers --> dim_contract
+    stg_teachers --> dim_gender
+
+    %% Staging to Silver Transactions
+    stg_students --> student_records
+    stg_teachers --> teacher_records
+
+    %% Silver Internal Relationships (Foreign Keys)
+    dim_institutions -- "municipality_id" --> dim_geography
+    dim_institutions -- "sector_id" --> dim_sectors
+    dim_institutions -- "character_id" --> dim_characters
+
+    dim_programs -- "academic_level_id" --> dim_academic_levels
+    dim_programs -- "formation_level_id" --> dim_formation_levels
+    dim_programs -- "cine_detailed_field_id" --> dim_cine
+    dim_programs -- "municipality_id" --> dim_geography
+
+    student_records -- "institution_id" --> dim_institutions
+    student_records -- "program_id" --> dim_programs
+    student_records -- "gender_id" --> dim_gender
+
+    teacher_records -- "institution_id" --> dim_institutions
+    teacher_records -- "gender_id" --> dim_gender
+    teacher_records -- "formation_level_id" --> dim_formation_levels
+    teacher_records -- "contract_type_id" --> dim_contract
+
+    %% Silver to Gold
+    student_records --> student_teacher_ratio
+    teacher_records --> student_teacher_ratio
+    dim_institutions --> student_teacher_ratio
+    dim_geography --> student_teacher_ratio
+```

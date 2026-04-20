@@ -1,0 +1,24 @@
+# Role
+Act as an expert Data Engineer and dbt Architect.
+
+# Task
+Analyze the dbt project structure, specifically the models located in the following directories:
+1. `models/bronze/` (Raw/Staging)
+2. `models/silver/` (Cleansed/Normalized/Kimball)
+3. `models/gold/` (Aggregated/Business/Mart)
+
+# Requirements
+Generate a comprehensive Mermaid.js diagram that visualizes the data lineage and relationships. 
+
+Please follow these technical specifications:
+1. **Format**: Use `graph LR` (Left to Right) to represent the flow from Bronze to Gold.
+2. **Styling**: 
+    - Use specific styles or subgraphs to visually separate the Bronze, Silver, and Gold layers.
+    - Assign different colors to each layer (e.g., Bronze: #f9f9f9, Silver: #e1f5fe, Gold: #fff9c4).
+3. **Detail Level**: 
+    - Include the model name for every node.
+    - If possible, extract primary keys and foreign keys from the `schema.yml` files to draw the edges (relationships).
+4. **Language**: Ensure all technical terms, node descriptions, and Mermaid comments are in English.
+
+# Output
+Provide the raw Mermaid code block ready to be rendered.
