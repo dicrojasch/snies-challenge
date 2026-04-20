@@ -20,5 +20,12 @@ export DB_NAME=${DB_NAME:-snies}
 # Construct the SQLAlchemy database URL
 export DATABASE_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
 
+# Navigate to the dbt project folder
+cd /dbt_project
+
+# Install dbt dependencies
+echo "installing dbt dependencies..."
+dbt deps
+
 # Execute the command passed to the container
 exec "$@"

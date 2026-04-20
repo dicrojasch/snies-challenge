@@ -39,7 +39,7 @@ services:
     environment:
       DB_USER_FILE: /run/secrets/db_user
       DB_PASSWORD_FILE: /run/secrets/db_password
-      PREFECT_API_URL: http://127.0.0.1:4200/api
+      PREFECT_API_URL: http://orchestrator:4200/api
     secrets:
       - db_user
       - db_password

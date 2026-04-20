@@ -10,10 +10,11 @@ Automated data platform built to monitor the academic capacity of Higher Educati
 3. [📐 Data Architecture (Medallion)](#data-architecture-medallion)
 4. [⚙️ Pipeline Orchestration](#pipeline-orchestration)
 5. [🖥 Operational Guide](#operational-guide)
-6. [🔌 Connectivity & External Tools](#connectivity--external-tools)
-7. [🚀 Future Roadmap](#future-roadmap)
-8. [🤖 AI-Powered Development](#ai-powered-development)
-9. [📂 Project File Reference](#project-file-reference)
+6. [📊 Observability & Visualization (Grafana)](#-observability--visualization-grafana)
+7. [🔌 Connectivity & External Tools](#connectivity--external-tools)
+8. [🚀 Future Roadmap](#future-roadmap)
+9. [🤖 AI-Powered Development](#ai-powered-development)
+10. [📂 Project File Reference](#project-file-reference)
 
 ---
 
@@ -47,6 +48,7 @@ docker exec snies-challenge-orchestrator-1 python /orchestration/flows/etl_flow.
 
 ### 4. Verify results
 - **Prefect Dashboard**: [http://localhost:4200](http://localhost:4200)
+- **Grafana Dashboard**: [Live Dashboard](http://localhost:3000/d/857298ea-10f9-41b2-9481-f0e0b3257782/snies-gold-table-dashboard?orgId=1&from=2022-01-01T00:00:00.000Z&to=2024-07-01T00:00:00.000Z&timezone=browser&refresh=1m)
 - **dbt Documentation**: [http://localhost:8080](http://localhost:8080) (See [Operational Guide](#-operational-guide) to start the server)
 
 ---
@@ -183,7 +185,24 @@ To visualize the data lineage and schema definitions:
 - **Orchestration:** Prefect
 - **Data Transformation:** dbt-core
 - **Ingestion:** Python (Pandas + SQLAlchemy)
+- **Visualization & Observability:** Grafana
 - **DevOps:** Docker & Docker Compose
+
+---
+
+## 📊 Observability & Visualization (Grafana)
+
+While not a traditional BI tool, **Grafana** was chosen as a lightweight solution for data visualization and real-time observability. It offers a simple, low-hardware consumption alternative to monitor the pipeline's final output without the overhead of heavy enterprise BI platforms.
+
+### Data Insight
+The implemented dashboard consumes data directly from the **Gold Layer**, providing a clear view of the student-to-teacher ratio metrics for Bogotá HEIs.
+
+> [!IMPORTANT]
+> **Data Dependency**: The dashboard will remain empty until the Prefect pipeline has been successfully executed at least once, popifying the `gold` schema tables.
+
+### Accessing the Dashboard
+- **Direct Link**: [SNIES Gold Table Dashboard](http://localhost:3000/d/857298ea-10f9-41b2-9481-f0e0b3257782/snies-gold-table-dashboard?orgId=1&from=2022-01-01T00:00:00.000Z&to=2024-07-01T00:00:00.000Z&timezone=browser&refresh=1m)
+- **Manual Navigation**: Go to `http://localhost:3000`, where anonymous access is pre-configured.
 
 ---
 
@@ -214,6 +233,9 @@ To scale this solution for the entire country (Colombia) or higher volumes:
 ## 🤖 AI-Powered Development
 
 This project was architected and implemented using the **Antigravity AI Agent**, leveraging models like **Gemini 3 Flash** and **Claude 3.5 Sonnet**. The development followed a strict **Implementation Plan → Execution → Walkthrough** methodology to ensure quality and traceability.
+
+> [!NOTE]
+> **Development Environment**: The entire solution was implemented and rigorously tested using **WSL2 (Windows Subsystem for Linux)** on **Windows 11**, ensuring full compatibility with modern Windows-based development workflows.
 
 ---
 
