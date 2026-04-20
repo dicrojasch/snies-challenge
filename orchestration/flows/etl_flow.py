@@ -5,8 +5,13 @@ import hashlib
 import json
 from sqlalchemy import create_engine, text
 from datetime import datetime
+import sys
 
-DB_URL = os.getenv("DATABASE_URL", "postgresql://user:password@postgres:5432/snies")
+# Ensure auxiliary scripts are in path
+sys.path.append('/scripts')
+from secrets_manager import get_database_url
+
+DB_URL = get_database_url()
 RAW_FILES_DIR = "/raw_snies_files"
 
 def get_engine():
