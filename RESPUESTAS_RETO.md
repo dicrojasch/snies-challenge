@@ -6,7 +6,7 @@ Este documento ha sido creado con el propósito de responder de manera directa y
 
 ### 🏛️ ¿Cómo saber si la institución pertenece al SUE o no?
 La pertenencia al **Sistema Universitario Estatal (SUE)** se gestiona mediante una tabla de referencia cruzada (seed) en dbt, basada en el listado oficial de instituciones públicas.
-- **Visualización**: En el panel de **Grafana**, algunas métricas permiten filtrar o distinguir por sector (Oficial vs. Privado).
+- **Visualización**: En el panel de [**Grafana**](http://localhost:3000/d/857298ea-10f9-41b2-9481-f0e0b3257782/snies-gold-table-dashboard?orgId=1&from=2022-01-01T00:00:00.000Z&to=2024-07-01T00:00:00.000Z&timezone=browser&refresh=1m) (ver [**README.md**](./README.md#observability--visualization-grafana)), algunas métricas permiten filtrar o distinguir por sector (Oficial vs. Privado).
 - **Consultas Ad-hoc**: Dado que la base de datos está expuesta, se puede consultar la tabla `silver.dim_instituciones` para verificar el campo de sector o cruzar con el seed `sue_institutions`.
 - **Conexión**: Los datos de conexión (host, puerto, credenciales) están especificados en la sección [**Connectivity & External Tools**](./README.md#connectivity--external-tools) del README.
 
@@ -26,10 +26,10 @@ Se implementó una **Arquitectura Medallion** en PostgreSQL:
 1.  **Bronze (Raw)**: Estructura prácticamente idéntica al origen (Excel/CSV) para mantener la fidelidad de los datos crudos.
 2.  **Silver (Normalized)**: Modelo dimensional normalizado (**Snowflake Schema**). Se utiliza para aplicar controles de integridad, restricciones de relaciones y asegurar la consistencia de datos únicos.
 3.  **Gold (Aggregated)**: Modelo dimensional desnormalizado (**Star Schema**). Optimizado para herramientas de BI, contiene los datos agrupados con el cálculo de la tasa de profesores y estudiantes.
-- **Trazabilidad**: Se realiza mediante el linaje de **dbt**. Un diagrama detallado de las relaciones y modelos se puede encontrar en [**models.md**](./models.md).
+- **Trazabilidad**: Se realiza mediante el linaje de **dbt** (ver [**README.md**](./README.md#data-documentation-dbt)) . Un diagrama detallado de las relaciones y modelos se puede encontrar en [**models.md**](./models.md).
 
 ### 🔌 ¿Es accesible la base de datos?
-**Sí.** La base de datos PostgreSQL está expuesta al host mediante Docker Compose. Los detalles de conexión (puerto 5432, base de datos `snies`, etc.) están documentales en la sección de [**Connectivity**](./README.md#connectivity--external-tools) del README.
+**Sí.** La base de datos PostgreSQL está expuesta al host mediante [Docker Compose](./docker-compose.yaml). Los detalles de conexión (puerto 5432, base de datos `snies`, etc.) están documentales en la sección de [**Connectivity**](./README.md#connectivity--external-tools) del README.
 
 ### 🐳 ¿La solución está en un entorno Docker?
 **Sí.** Toda la infraestructura (PostgreSQL, Prefect, Grafana, dbt) está contenida en contenedores y se despliega de forma reproducible mediante el archivo [**docker-compose.yaml**](./docker-compose.yaml).

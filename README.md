@@ -179,6 +179,11 @@ To visualize the data lineage and schema definitions:
     docker exec -w /dbt_project snies-challenge-orchestrator-1 dbt docs serve --port 8080 --host 0.0.0.0
     ```
 2.  **Access the UI**: [http://localhost:8080](http://localhost:8080)
+    
+    Explore the most critical documentation features:
+    - **[Data Lineage](http://localhost:8080/#!/overview?g_v=1)**: View the full Medallion lineage (Bronze → Staging → Silver → Gold). Interactively explore dependencies and data flow across layers.
+    - **[Bronze Schema](http://localhost:8080/#!/source_list/bronze)**: Detailed structure and definitions for the raw ingested data.
+    - **[Silver & Gold Models](http://localhost:8080/#!/overview/snies_challenge)**: Under the `models` folder, explore the documentation for the normalized silver entities and the final aggregated gold metrics.
 
 ### 🛠 Tech Stack
 - **Database:** PostgreSQL (OLAP)
