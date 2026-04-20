@@ -6,7 +6,7 @@ Este documento ha sido creado con el propósito de responder de manera directa y
 
 ### 🏛️ ¿Cómo saber si la institución pertenece al SUE o no?
 La pertenencia al **Sistema Universitario Estatal (SUE)** se gestiona mediante una tabla de referencia cruzada (seed) en dbt, basada en el listado oficial de instituciones públicas.
-- **Visualización**: En el panel de [**Grafana**](http://localhost:3000/d/857298ea-10f9-41b2-9481-f0e0b3257782/snies-gold-table-dashboard?orgId=1&from=2022-01-01T00:00:00.000Z&to=2024-07-01T00:00:00.000Z&timezone=browser&refresh=1m) (ver [**README.md**](./README.md#observability--visualization-grafana)), algunas métricas permiten filtrar o distinguir por sector (Oficial vs. Privado).
+- **Visualización**: En el panel de [**Grafana**](http://localhost:3000/d/857298ea-10f9-41b2-9481-f0e0b3257782/snies-gold-table-dashboard?orgId=1&from=2022-01-01T00:00:00.000Z&to=2024-07-01T00:00:00.000Z&timezone=browser&refresh=1m) (ver [**README.md**](./README.md#-observability--visualization-grafana)), algunas métricas permiten filtrar o distinguir por sector (Oficial vs. Privado).
 - **Consultas Ad-hoc**: Dado que la base de datos está expuesta, se puede consultar la tabla `silver.dim_instituciones` para verificar el campo de sector o cruzar con el seed `sue_institutions`.
 - **Conexión**: Los datos de conexión (host, puerto, credenciales) están especificados en la sección [**Connectivity & External Tools**](./README.md#connectivity--external-tools) del README.
 
@@ -59,7 +59,7 @@ Esta solución fue desarrollada integralmente usando el IDE **Antigravity**, emp
 - **Modelos**: Principalmente **Gemini 3 Flash**, y para lógica compleja con restricciones de contexto, **Gemini 3.1 Pro (High)** y **Claude Sonnet 4.6 (Thinking)**.
 - **Trazabilidad**: Cada cambio importante cuenta con un `implementation_plan` (blueprint técnico), un `task` (objetivo de ejecución) y un `walkthrough` (informe de entrega) en la carpeta [`./implementation_plans`](./implementation_plans).
 - **Gemini Web**: Se utilizó la interfaz de [gemini.google.com](https://gemini.google.com/) alternando modos según la complejidad (**Fast**, **Thinking**, **Pro**) para optimizar el consumo de tokens y precisión.
-- **Commits**: La mayoría de los commits están co-autores por el agente **Antigravity**.
+- **Commits**: La mayoría de los commits están co-autores por el agente **Antigravity** (ver [**gitgub**](https://github.com/dicrojasch/snies-challenge/pulse)).
 
 ---
 *Documento centralizado de respuestas - SNIES Challenge.*

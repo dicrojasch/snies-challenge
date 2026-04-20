@@ -10,7 +10,7 @@ Automated data platform built to monitor the academic capacity of Higher Educati
 3. [📐 Data Architecture (Medallion)](#data-architecture-medallion)
 4. [⚙️ Pipeline Orchestration](#pipeline-orchestration)
 5. [🖥 Operational Guide](#operational-guide)
-6. [📊 Observability & Visualization (Grafana)](#-observability--visualization-grafana)
+6. [📊 Observability & Visualization (Grafana)](#observability--visualization-grafana)
 7. [🔌 Connectivity & External Tools](#connectivity--external-tools)
 8. [🚀 Future Roadmap](#future-roadmap)
 9. [🤖 AI-Powered Development](#ai-powered-development)
@@ -18,7 +18,7 @@ Automated data platform built to monitor the academic capacity of Higher Educati
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 Get the entire environment up and running in minutes.
 
@@ -53,7 +53,7 @@ docker exec snies-challenge-orchestrator-1 python /orchestration/flows/etl_flow.
 
 ---
 
-## 📊 System Architecture
+## System Architecture
 
 The project follows a modular design where **Prefect** governs the execution flow and **dbt** handles the logic within the database.
 
@@ -119,7 +119,7 @@ graph TD
 
 ---
 
-## 📐 Data Architecture (Medallion)
+## Data Architecture (Medallion)
 
 We implement a three-layer architecture to ensure data quality, consistency, and analytical performance.
 
@@ -143,7 +143,7 @@ We implement a three-layer architecture to ensure data quality, consistency, and
 
 ---
 
-## ⚙️ Pipeline Orchestration
+## Pipeline Orchestration
 
 The pipeline consists of four intelligent stages orchestrated by **Prefect**:
 
@@ -167,7 +167,7 @@ The pipeline consists of four intelligent stages orchestrated by **Prefect**:
 
 ## 🖥 Operational Guide
 
-### 🔍 Monitoring with Prefect
+### Monitoring with Prefect
 Access the dashboard at [http://localhost:4200](http://localhost:4200):
 - **Runs**: View real-time logs and task status.
 - **Flows**: Inspect the DAG and execution history.
@@ -185,7 +185,7 @@ To visualize the data lineage and schema definitions:
     - **[Bronze Schema](http://localhost:8080/#!/source_list/bronze)**: Detailed structure and definitions for the raw ingested data.
     - **[Silver & Gold Models](http://localhost:8080/#!/overview/snies_challenge)**: Under the `models` folder, explore the documentation for the normalized silver entities and the final aggregated gold metrics.
 
-### 🛠 Tech Stack
+### Tech Stack
 - **Database:** PostgreSQL (OLAP)
 - **Orchestration:** Prefect
 - **Data Transformation:** dbt-core
@@ -195,7 +195,7 @@ To visualize the data lineage and schema definitions:
 
 ---
 
-## 📊 Observability & Visualization (Grafana)
+## Observability & Visualization (Grafana)
 
 While not a traditional BI tool, **Grafana** was chosen as a lightweight solution for data visualization and real-time observability. It offers a simple, low-hardware consumption alternative to monitor the pipeline's final output without the overhead of heavy enterprise BI platforms.
 
@@ -211,7 +211,7 @@ The implemented dashboard consumes data directly from the **Gold Layer**, provid
 
 ---
 
-## 🔌 Connectivity & External Tools
+## Connectivity & External Tools
 
 Connect your favorite BI tool (Tableau, PowerBI, DBeaver) using these parameters:
 
@@ -225,7 +225,7 @@ Connect your favorite BI tool (Tableau, PowerBI, DBeaver) using these parameters
 
 ---
 
-## 🚀 Future Roadmap
+## Future Roadmap
 
 To scale this solution for the entire country (Colombia) or higher volumes:
 1.  **Storage**: Migrate to a cloud data warehouse (Snowflake/Redshift).
@@ -235,7 +235,7 @@ To scale this solution for the entire country (Colombia) or higher volumes:
 
 ---
 
-## 🤖 AI-Powered Development
+## AI-Powered Development
 
 This project was architected and implemented using the **Antigravity AI Agent**, leveraging models like **Gemini 3 Flash** and **Claude 3.5 Sonnet**. The development followed a strict **Implementation Plan → Execution → Walkthrough** methodology to ensure quality and traceability.
 
@@ -244,7 +244,7 @@ This project was architected and implemented using the **Antigravity AI Agent**,
 
 ---
 
-## 📂 Project File Reference
+## Project File Reference
 
 | Resource | Path | Description |
 | :--- | :--- | :--- |
