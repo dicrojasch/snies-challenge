@@ -1,0 +1,16 @@
+apiVersion: 1
+
+datasources:
+  - name: Postgres_SUE_Final
+    type: postgres
+    uid: sue_gold_datasource_v3
+    url: postgres:5432
+    user: ${DB_USER}
+    database: snies
+    jsonData:
+      sslmode: 'disable'
+    secureJsonData:
+      password: ${DB_PASSWORD}
+    version: 1
+    editable: true
+    isDefault: true

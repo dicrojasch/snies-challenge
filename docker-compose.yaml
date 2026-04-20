@@ -57,6 +57,26 @@ services:
     depends_on:
       - postgres
 
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_BASIC_ENABLED=false
+    entrypoint: /init-grafana.sh
+    secrets:
+      - db_user
+      - db_password
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/init-grafana.sh:/init-grafana.sh
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:
 
