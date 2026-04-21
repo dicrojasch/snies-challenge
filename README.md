@@ -29,11 +29,17 @@ Get the entire environment up and running in minutes.
 ### 1. Configure Credentials
 The system uses **Docker Secrets** for secure management. Create the secrets directory and define your database credentials:
 ```bash
+# Linux Mac environment
 mkdir -p secrets
 echo "snies_user" > secrets/db_user
 echo "snies_password" > secrets/db_password
 ```
-
+```bash
+# Windows environment
+mkdir -p secrets
+Set-Content -NoNewline -Path ./secrets/db_user -Value "tu_usuario" -Encoding Ascii
+Set-Content -NoNewline -Path ./secrets/db_password -Value "tu_password" -Encoding Ascii
+```
 ### 2. Launch Infrastructure
 ```bash
 docker compose up -d --build
@@ -43,6 +49,7 @@ docker compose up -d --build
 ### 3. Trigger the Pipeline
 Execute the full flow (Extraction → Ingestion → Transformation):
 ```bash
+# This command may fail if database is not ready, so wait for database readiness to execute it
 docker exec snies-challenge-orchestrator-1 python /orchestration/flows/etl_flow.py
 ```
 
