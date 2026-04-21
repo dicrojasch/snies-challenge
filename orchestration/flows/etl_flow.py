@@ -9,7 +9,7 @@ import sys
 
 # Ensure auxiliary scripts are in path
 sys.path.append('/scripts')
-from secrets_manager import get_database_url
+from secrets_manager import get_database_url, get_secret
 
 DB_URL = get_database_url()
 RAW_FILES_DIR = "/raw_snies_files"
@@ -144,13 +144,25 @@ def run_dbt():
     """Run dbt build to materialize silver and gold schemas."""
     logger = get_run_logger()
     logger.info("Starting dbt transformations...")
+
+    db_user = get_secret("db_user")
+    db_password = get_secret("db_password")
+    credentials_dict = {
+        "DB_USER": db_user,
+        "DB_PASSWORD": db_password
+    }
+
+    full_env = os.environ.copy()
+    full_env.update(credentials_dict)   
+    
     try:
         result = subprocess.run(
             ["dbt", "build", "--profiles-dir", ".", "--project-dir", "/dbt_project"],
             cwd="/dbt_project",
             capture_output=True,
             text=True,
-            check=True
+            check=True,
+            env=full_env
         )
         logger.debug(f"dbt Output:\n{result.stdout}")
     except subprocess.CalledProcessError as e:
