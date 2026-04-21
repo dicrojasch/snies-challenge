@@ -1,0 +1,4 @@
+# Forzar que los scripts siempre usen LF al ser extraídos del repo
+*.sh text eol=lf
+*.sql text eol=lf
+/secrets/* text eol=lf
