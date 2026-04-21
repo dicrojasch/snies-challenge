@@ -25,7 +25,7 @@ Se utilizó **Prefect** como motor de orquestación.
 Se implementó una **Arquitectura Medallion** en PostgreSQL:
 1.  **Bronze (Raw)**: Estructura prácticamente idéntica al origen (Excel/CSV) para mantener la fidelidad de los datos crudos.
 2.  **Silver (Normalized)**: Modelo dimensional normalizado (**Snowflake Schema**). Se utiliza para aplicar controles de integridad, restricciones de relaciones y asegurar la consistencia de datos únicos.
-3.  **Gold (Aggregated)**: Modelo dimensional desnormalizado (**Star Schema**). Optimizado para herramientas de BI, contiene los datos agrupados con el cálculo de la tasa de profesores y estudiantes.
+3.  **Gold (Aggregated)**: Modelo dimensional desnormalizado (**One Big Table**). Optimizado para herramientas de BI, contiene los datos agrupados con el cálculo de la tasa de profesores y estudiantes.
 - **Trazabilidad**: Se realiza mediante el linaje de **dbt** (ver [**README.md**](./README.md#data-documentation-dbt)) . Un diagrama detallado de las relaciones y modelos se puede encontrar en [**models.md**](./models.md).
 
 ### 🔌 ¿Es accesible la base de datos?

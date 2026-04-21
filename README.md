@@ -141,7 +141,7 @@ We implement a three-layer architecture to ensure data quality, consistency, and
 - **Storage**: `silver` schema.
 
 ### 🥇 Gold Layer (Aggregated)
-- **Model**: **Star Schema**.
+- **Model**: **One Big Table**.
 - **Purpose**: Optimized for BI. Contains pre-calculated metrics like the **Student-to-Teacher Ratio**.
 - **Storage**: `gold` schema.
 
